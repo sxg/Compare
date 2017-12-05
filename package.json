@@ -1,18 +1,19 @@
 {
-  "name": "electron-quick-start",
+  "name": "5-stars",
+  "productName": "5 Stars",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "An Electron app to rate images on a scale of 1–5",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/sxg/5-Stars",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "MRI",
+    "medical-imaging",
+    "quality",
+    "rating"
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
