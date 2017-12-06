@@ -8,6 +8,19 @@ const path = require('path')
 const fs = require('fs')
 const url = require('url')
 
+/// Helpers
+const showError = function (container) {
+  container.classList.add('error')
+}
+
+const hideErrors = function () {
+  imagesContainer.classList.remove('error')
+}
+
+const enableRateImagesButton = function () {
+  rateImagesButton.classList.remove('disabled')
+}
+
 /// View
 // Window
 let window = remote.getCurrentWindow()
@@ -69,16 +82,3 @@ rateImagesButton.addEventListener('click', event => {
   window.close()
   window = null
 })
-
-/// Helpers
-const showError = function (container) {
-  container.classList.add('error')
-}
-
-const hideErrors = function () {
-  imagesContainer.classList.remove('error')
-}
-
-const enableRateImagesButton = function () {
-  rateImagesButton.classList.remove('disabled')
-}
