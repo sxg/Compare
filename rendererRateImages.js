@@ -4,6 +4,9 @@ const {ipcRenderer} = require('electron')
 
 // Node dependencies
 const Mousetrap = require('mousetrap')
+const fs = require('fs')
+const path = require('path')
+const _ = require('lodash')
 
 /// Helpers
 const rateImage = function (rating) {
@@ -23,7 +26,13 @@ const rateFiveButton = document.getElementById('5')
 
 /// Model
 ipcRenderer.on('Message-ImagesPath', (event, data) => {
-  console.log(data.imagesPath)
+  // Get all .png files
+  let files = fs.readdirSync(data.imagesPath)
+  _.remove(files, file => {
+    return path.extname(file) !== '.png'
+  })
+  // Shuffle the order of the images
+  files = _.shuffle(files)
 })
 
 /// UI Actions

@@ -21,8 +21,6 @@ function createWindow () {
   }))
 
   ipcMain.on('Message-ImagesPath', (event, data) => {
-    console.log(data.imagesPath)
-
     // Load rating window
     let rateWindow = new BrowserWindow({show: false})
     rateWindow.loadURL(url.format({

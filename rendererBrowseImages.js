@@ -1,12 +1,6 @@
 // Import Electron components
 const {remote, ipcRenderer} = require('electron')
-const {dialog, BrowserWindow} = remote
-
-// Import Node dependencies
-const _ = require('lodash')
-const path = require('path')
-const fs = require('fs')
-const url = require('url')
+const {dialog} = remote
 
 /// Helpers
 const showError = function (container) {
@@ -47,17 +41,7 @@ imagesButton.addEventListener('click', event => {
       if (filePaths && filePaths[0]) {
         enableRateImagesButton()
         imagesPath = filePaths[0]
-        let files = fs.readdirSync(filePaths[0])
-
-        // Display the selected folder path in the input box
-        imagesInput.value = filePaths[0]
-
-        // Remove all non .png files
-        _.remove(files, file => {
-          return path.extname(file) !== '.png'
-        })
-        // Shuffle the order of the image files
-        files = _.shuffle(files)
+        imagesInput.value = imagesPath
       } else if (!imagesPath) {
         showError(imagesContainer)
       }
