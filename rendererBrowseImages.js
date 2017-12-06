@@ -29,6 +29,8 @@ imagesButton.addEventListener('click', event => {
         _.remove(filePaths, filePath => {
           return path.extname(filePath) !== '.png'
         })
+        // Shuffle the order of the image files
+        filePaths = _.shuffle(filePaths)
       } else {
         showError(imagesContainer)
       }
