@@ -3,20 +3,29 @@
 // All of the Node.js APIs are available in this process.
 
 const {remote} = require('electron')
-const {dialog} = remote
+const {dialog, BrowserWindow} = remote
 
 const _ = require('lodash')
 const path = require('path')
+const fs = require('fs')
+const url = require('url')
 
 /// View
 // Window
-const window = remote.getCurrentWindow()
+let window = remote.getCurrentWindow()
+
+// Input
+const imagesInput = document.getElementById('input-images')
 
 // Button
 const imagesButton = document.getElementById('button-images')
+const rateImagesButton = document.getElementById('button-rate-images')
 
 // Input container
 const imagesContainer = document.getElementById('container-images')
+
+/// Model
+let imagesPath
 
 /// UI Actions
 // Browse folder with images
@@ -24,17 +33,43 @@ imagesButton.addEventListener('click', event => {
   hideErrors()
   dialog.showOpenDialog(window, {properties: ['openDirectory']},
     filePaths => {
-      if (filePaths) {
+      if (filePaths && filePaths[0]) {
+        enableRateImagesButton()
+        imagesPath = filePaths[0]
+        let files = fs.readdirSync(filePaths[0])
+
+        // Display the selected folder path in the input box
+        imagesInput.value = filePaths[0]
+
         // Remove all non .png files
-        _.remove(filePaths, filePath => {
-          return path.extname(filePath) !== '.png'
+        _.remove(files, file => {
+          return path.extname(file) !== '.png'
         })
         // Shuffle the order of the image files
-        filePaths = _.shuffle(filePaths)
-      } else {
+        files = _.shuffle(files)
+      } else if (!imagesPath) {
         showError(imagesContainer)
       }
     })
+})
+
+// Navigate to rating images
+rateImagesButton.addEventListener('click', event => {
+  hideErrors()
+
+  // Load rating screen
+  let rateWindow = new BrowserWindow({show: false})
+  rateWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'rate.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+  rateWindow.show()
+  rateWindow.maximize()
+
+  // Close the main window
+  window.close()
+  window = null
 })
 
 /// Helpers
@@ -44,4 +79,8 @@ const showError = function (container) {
 
 const hideErrors = function () {
   imagesContainer.classList.remove('error')
+}
+
+const enableRateImagesButton = function () {
+  rateImagesButton.classList.remove('disabled')
 }
