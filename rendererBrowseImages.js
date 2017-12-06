@@ -1,5 +1,5 @@
 // Import Electron components
-const {remote} = require('electron')
+const {remote, ipcRenderer} = require('electron')
 const {dialog, BrowserWindow} = remote
 
 // Import Node dependencies
@@ -68,15 +68,8 @@ imagesButton.addEventListener('click', event => {
 rateImagesButton.addEventListener('click', event => {
   hideErrors()
 
-  // Load rating screen
-  let rateWindow = new BrowserWindow({show: false})
-  rateWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'rate.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
-  rateWindow.show()
-  rateWindow.maximize()
+  // Send messagee to main process
+  ipcRenderer.send('Message-ImagesPath', {imagesPath: imagesPath})
 
   // Close the main window
   window.close()

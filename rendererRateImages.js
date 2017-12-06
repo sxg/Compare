@@ -1,4 +1,8 @@
-// Import Node dependencies
+/// Import dependencies
+// Electron components
+const {ipcRenderer} = require('electron')
+
+// Node dependencies
 const Mousetrap = require('mousetrap')
 
 /// Helpers
@@ -16,6 +20,11 @@ const rateTwoButton = document.getElementById('2')
 const rateThreeButton = document.getElementById('3')
 const rateFourButton = document.getElementById('4')
 const rateFiveButton = document.getElementById('5')
+
+/// Model
+ipcRenderer.on('Message-ImagesPath', (event, data) => {
+  console.log(data.imagesPath)
+})
 
 /// UI Actions
 // Rating buttons

@@ -1,14 +1,12 @@
-const electron = require('electron')
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+/// Import dependencies
+// Electron components
+const {app, BrowserWindow, ipcMain} = require('electron')
 
+// Node dependencies
 const path = require('path')
 const url = require('url')
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+/// View
 let mainWindow
 
 function createWindow () {
@@ -22,8 +20,26 @@ function createWindow () {
     slashes: true
   }))
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  ipcMain.on('Message-ImagesPath', (event, data) => {
+    console.log(data.imagesPath)
+
+    // Load rating window
+    let rateWindow = new BrowserWindow({show: false})
+    rateWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'rate.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
+
+    // Send data to the rating window
+    rateWindow.webContents.on('did-finish-load', () => {
+      rateWindow.webContents.send('Message-ImagesPath', data)
+    })
+
+    // Show the rating window
+    rateWindow.show()
+    rateWindow.maximize()
+  })
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
