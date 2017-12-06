@@ -40,6 +40,6 @@ const showError = function (container) {
   container.classList.add('error')
 }
 
-const hideErrors = function() {
+const hideErrors = function () {
   imagesContainer.classList.remove('error')
 }
