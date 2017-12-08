@@ -4,9 +4,10 @@ const {ipcRenderer} = require('electron')
 
 // Node dependencies
 const Mousetrap = require('mousetrap')
+const _ = require('lodash')
+const json2csv = require('json2csv')
 const fs = require('fs')
 const path = require('path')
-const _ = require('lodash')
 
 /// Helpers
 const rateImage = function (rating) {
@@ -17,12 +18,19 @@ const rateImage = function (rating) {
     rating: rating
   })
 
-  // Get the next image
   if (filePaths.length !== 0) {
+    // Get the next image
     setCurrentImage(filePaths.shift())
   } else {
-    // TODO: handle user when finished rating all images
-    // TODO: save imageRatings to a file
+    // Save the image ratings to a CSV file
+    const fields = ['imageName', 'imagePath', 'rating']
+    const fieldNames = ['Image Name', 'Image Path', 'Rating']
+    const imageRatingsCSV = json2csv({ data: imageRatings, fields: fields, fieldNames: fieldNames })
+    fs.writeFileSync('ImageRatings.csv', imageRatingsCSV, function (err) {
+      if (err) {
+        console.error(new Error(err))
+      }
+    })
   }
 }
 
