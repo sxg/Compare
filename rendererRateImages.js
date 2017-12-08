@@ -11,11 +11,13 @@ const _ = require('lodash')
 /// Helpers
 const rateImage = function (rating) {
   console.log(rating + ' out of 5!')
+  // TODO: save rating
+  // TODO: load next image
 }
 
 /// View
 // Image
-// const image = document.getElementById('image')
+const image = document.getElementById('image')
 
 // Buttons
 const rateOneButton = document.getElementById('1')
@@ -25,14 +27,23 @@ const rateFourButton = document.getElementById('4')
 const rateFiveButton = document.getElementById('5')
 
 /// Model
+let filePaths
+
 ipcRenderer.on('Message-ImagesPath', (event, data) => {
-  // Get all .png files
-  let files = fs.readdirSync(data.imagesPath)
-  _.remove(files, file => {
-    return path.extname(file) !== '.png'
+  // Get all .png filePaths
+  let fileNames = fs.readdirSync(data.imagesPath)
+  _.remove(fileNames, filePath => {
+    return path.extname(filePath) !== '.png'
   })
   // Shuffle the order of the images
-  files = _.shuffle(files)
+  fileNames = _.shuffle(fileNames)
+  // Add the directory path to the file names
+  filePaths = _.map(fileNames, (fileName) => {
+    return path.join(data.imagesPath, fileName)
+  })
+
+  // Load the first image
+  image.src = filePaths.shift()
 })
 
 /// UI Actions
