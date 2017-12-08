@@ -10,9 +10,32 @@ const _ = require('lodash')
 
 /// Helpers
 const rateImage = function (rating) {
-  console.log(rating + ' out of 5!')
-  // TODO: save rating
-  // TODO: load next image
+  // Save the rating
+  imageRatings.push({
+    imageName: getCurrentImage().imageName,
+    imagePath: getCurrentImage().imagePath,
+    rating: rating
+  })
+
+  // Get the next image
+  if (filePaths.length !== 0) {
+    setCurrentImage(filePaths.shift())
+  } else {
+    // TODO: handle user when finished rating all images
+    // TODO: save imageRatings to a file
+  }
+}
+
+const setCurrentImage = function (imagePath) {
+  image.src = imagePath
+  currentImage = {
+    imagePath: imagePath,
+    imageName: path.basename(imagePath, '.png')
+  }
+}
+
+const getCurrentImage = function () {
+  return currentImage
 }
 
 /// View
@@ -28,6 +51,8 @@ const rateFiveButton = document.getElementById('5')
 
 /// Model
 let filePaths
+let currentImage
+const imageRatings = []
 
 ipcRenderer.on('Message-ImagesPath', (event, data) => {
   // Get all .png filePaths
@@ -43,7 +68,7 @@ ipcRenderer.on('Message-ImagesPath', (event, data) => {
   })
 
   // Load the first image
-  image.src = filePaths.shift()
+  setCurrentImage(filePaths.shift())
 })
 
 /// UI Actions
