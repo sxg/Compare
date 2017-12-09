@@ -10,12 +10,28 @@ const fs = require('fs')
 const path = require('path')
 
 /// Helpers
-const rateImage = function (rating) {
+const rateImage = function (question, rating) {
   // Save the rating
-  imageRatings.push({
-    imageName: getCurrentImage().imageName,
-    imagePath: getCurrentImage().imagePath,
-    rating: rating
+  const i = userState.currentImageRatingIndex
+  switch (question) {
+    case 0:
+      imageRatings[i].q1Rating = rating
+      break
+    case 1:
+      imageRatings[i].q2Rating = rating
+      break
+    case 2:
+      imageRatings[i].q2Rating = rating
+      break
+    case 3:
+      imageRatings[i].q2Rating = rating
+      break
+    case 4:
+      imageRatings[i].q2Rating = rating
+      break
+  }
+}
+
 const saveImageRatings = function () {
   const fields = ['imagePath', 'imageName', 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating']
   const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
