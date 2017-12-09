@@ -16,7 +16,16 @@ const rateImage = function (rating) {
     imageName: getCurrentImage().imageName,
     imagePath: getCurrentImage().imagePath,
     rating: rating
+const saveImageRatings = function () {
+  const fields = ['imagePath', 'imageName', 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating']
+  const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
+  const imageRatingsCSV = json2csv({ data: imageRatings, fields: fields, fieldNames: fieldNames })
+  fs.writeFileSync('ImageRatings.csv', imageRatingsCSV, function (err) {
+    if (err) {
+      console.error(new Error(err))
+    }
   })
+}
 
   if (filePaths.length !== 0) {
     // Get the next image
