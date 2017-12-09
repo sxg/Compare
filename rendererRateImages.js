@@ -58,9 +58,15 @@ const rateFourButton = document.getElementById('4')
 const rateFiveButton = document.getElementById('5')
 
 /// Model
-let filePaths
-let currentImage
-const imageRatings = []
+let imageRatings
+const userState = {
+  currentImageRatingIndex: 0,
+  q1Rating: null,
+  q2Rating: null,
+  q3Rating: null,
+  q4Rating: null,
+  q5Rating: null
+}
 
 ipcRenderer.on('Message-ImagesPath', (event, data) => {
   // Get all .png filePaths
@@ -70,9 +76,19 @@ ipcRenderer.on('Message-ImagesPath', (event, data) => {
   })
   // Shuffle the order of the images
   fileNames = _.shuffle(fileNames)
-  // Add the directory path to the file names
-  filePaths = _.map(fileNames, (fileName) => {
-    return path.join(data.imagesPath, fileName)
+
+  // Initialize image ratings
+  imageRatings = _.map(fileNames, fileName => {
+    const filePath = path.join(data.imagesPath, fileName)
+    return {
+      imagePath: filePath,
+      imageName: path.basename(filePath, '.png'),
+      q1Rating: null,
+      q2Rating: null,
+      q3Rating: null,
+      q4Rating: null,
+      q5Rating: null
+    }
   })
 
   // Load the first image
