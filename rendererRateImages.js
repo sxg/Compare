@@ -56,10 +56,6 @@ const nextImage = function () {
   }
 }
 
-const getCurrentImage = function () {
-  return currentImage
-}
-
 /// View
 // Image
 const image = document.getElementById('image')
