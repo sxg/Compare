@@ -70,7 +70,7 @@ const rateFiveButton = document.getElementById('5')
 /// Model
 let imageRatings
 const userState = {
-  currentImageRatingIndex: 0,
+  currentImageRatingIndex: -1,
   q1Rating: null,
   q2Rating: null,
   q3Rating: null,
