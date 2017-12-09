@@ -27,27 +27,16 @@ const saveImageRatings = function () {
   })
 }
 
-  if (filePaths.length !== 0) {
-    // Get the next image
-    setCurrentImage(filePaths.shift())
+const nextImage = function () {
+  // Get the next image if there is one
+  if (userState.currentImageRatingIndex !== imageRatings.length - 1) {
+    userState.currentImageRatingIndex++
+    const imageRating = imageRatings[userState.currentImageRatingIndex]
+    image.src = imageRating.imagePath
+    resetRatings()
   } else {
     // Save the image ratings to a CSV file
-    const fields = ['imageName', 'imagePath', 'rating']
-    const fieldNames = ['Image Name', 'Image Path', 'Rating']
-    const imageRatingsCSV = json2csv({ data: imageRatings, fields: fields, fieldNames: fieldNames })
-    fs.writeFileSync('ImageRatings.csv', imageRatingsCSV, function (err) {
-      if (err) {
-        console.error(new Error(err))
-      }
-    })
-  }
-}
-
-const setCurrentImage = function (imagePath) {
-  image.src = imagePath
-  currentImage = {
-    imagePath: imagePath,
-    imageName: path.basename(imagePath, '.png')
+    saveImageRatings()
   }
 }
 
@@ -101,7 +90,7 @@ ipcRenderer.on('Message-ImagesPath', (event, data) => {
   })
 
   // Load the first image
-  setCurrentImage(filePaths.shift())
+  nextImage()
 })
 
 /// UI Actions
