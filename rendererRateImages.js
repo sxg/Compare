@@ -77,6 +77,22 @@ const userState = {
   q4Rating: null,
   q5Rating: null
 }
+const Question = {
+  Q1: 'q1',
+  Q2: 'q2',
+  Q3: 'q3',
+  Q4: 'q4',
+  Q5: 'q5'
+}
+Object.freeze(Question)
+const Rating = {
+  R1: 'r1',
+  R2: 'r2',
+  R3: 'r3',
+  R4: 'r4',
+  R5: 'r5'
+}
+Object.freeze(Rating)
 
 ipcRenderer.on('Message-ImagesPath', (event, data) => {
   // Get all .png filePaths
