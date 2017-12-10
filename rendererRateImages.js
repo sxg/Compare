@@ -11,6 +11,11 @@ const path = require('path')
 
 /// Helpers
 const rateImage = function (question, rating) {
+  // Parse the question and rating
+  const qMatch = (/q([1-5])/g).exec(question)
+  const rMatch = (/r([1-5])/g).exec(rating)
+  console.log(qMatch[1] + ' ' + rMatch[1])
+
   // Save the rating
   const i = userState.currentImageRatingIndex
   switch (question) {
@@ -59,13 +64,6 @@ const nextImage = function () {
 /// View
 // Image
 const image = document.getElementById('image')
-
-// Buttons
-const rateOneButton = document.getElementById('1')
-const rateTwoButton = document.getElementById('2')
-const rateThreeButton = document.getElementById('3')
-const rateFourButton = document.getElementById('4')
-const rateFiveButton = document.getElementById('5')
 
 /// Model
 let imageRatings
@@ -123,11 +121,12 @@ ipcRenderer.on('Message-ImagesPath', (event, data) => {
 
 /// UI Actions
 // Rating buttons
-rateOneButton.addEventListener('click', event => { rateImage(1) })
-rateTwoButton.addEventListener('click', event => { rateImage(2) })
-rateThreeButton.addEventListener('click', event => { rateImage(3) })
-rateFourButton.addEventListener('click', event => { rateImage(4) })
-rateFiveButton.addEventListener('click', event => { rateImage(5) })
+const ratingButtons = document.querySelectorAll('.button')
+ratingButtons.forEach(ratingButton => {
+  const question = _.intersection(ratingButton.classList, [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5])
+  const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])
+  ratingButton.addEventListener('click', event => { rateImage(question, rating) })
+})
 
 // Key bindings for rating buttons
 Mousetrap.bind('1', event => { rateImage(1) })
