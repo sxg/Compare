@@ -12,29 +12,14 @@ const path = require('path')
 /// Helpers
 const rateImage = function (question, rating) {
   // Parse the question and rating
+  // `question` is like 'q1', 'q2', 'q3', etc.
+  // `rating` is like 'r1', 'r2', 'r3', etc.
   const qMatch = (/q([1-5])/g).exec(question)
   const rMatch = (/r([1-5])/g).exec(rating)
-  console.log(qMatch[1] + ' ' + rMatch[1])
 
-  // Save the rating
-  const i = userState.currentImageRatingIndex
-  switch (question) {
-    case 0:
-      imageRatings[i].q1Rating = rating
-      break
-    case 1:
-      imageRatings[i].q2Rating = rating
-      break
-    case 2:
-      imageRatings[i].q2Rating = rating
-      break
-    case 3:
-      imageRatings[i].q2Rating = rating
-      break
-    case 4:
-      imageRatings[i].q2Rating = rating
-      break
-  }
+  // Set the rating in the user state
+  const qProperty = 'q' + String(qMatch[1]) + 'Rating'
+  userState[qProperty] = String(rMatch[1])
 }
 
 const saveImageRatings = function () {
