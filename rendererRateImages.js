@@ -88,23 +88,31 @@ const setButtonRating = function (button, rating) {
 }
 
 const enableNextButton = function () {
-  nextButton.classList.remove('disabled')
-  nextButton.classList.add('green')
+  if (!isNextButtonEnabled()) {
+    nextButton.classList.remove('disabled')
+    nextButton.classList.add('green')
+  }
 }
 
 const disableNextButton = function () {
-  nextButton.classList.remove('green')
-  nextButton.classList.add('disabled')
+  if (isNextButtonEnabled()) {
+    nextButton.classList.remove('green')
+    nextButton.classList.add('disabled')
+  }
 }
 
 const enablePreviousButton = function () {
-  previousButton.classList.remove('disabled')
-  previousButton.classList.add('green')
+  if (!isPreviousButtonEnabled()) {
+    previousButton.classList.remove('disabled')
+    previousButton.classList.add('green')
+  }
 }
 
 const disablePreviousButton = function () {
-  previousButton.classList.remove('green')
-  previousButton.classList.add('disabled')
+  if (isPreviousButtonEnabled()) {
+    previousButton.classList.remove('green')
+    previousButton.classList.add('disabled')
+  }
 }
 
 const isNextButtonEnabled = function () {
