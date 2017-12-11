@@ -61,7 +61,7 @@ const resetButtons = function (selector) {
 
 const nextImage = function () {
   // Get the next image if there is one
-  if (userState.currentImageRatingIndex !== imageRatings.length - 1) {
+  if (userState.currentImageRatingIndex < imageRatings.length) {
     // Store the user state
     storeUserState()
     // Update the user state for the next image
