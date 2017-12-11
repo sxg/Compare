@@ -24,6 +24,7 @@ const isRateImagesButtonEnabled = function () {
 let window = remote.getCurrentWindow()
 
 // Input
+const nameInput = document.getElementById('input-name')
 const imagesInput = document.getElementById('input-images')
 
 // Button
@@ -34,6 +35,7 @@ const rateImagesButton = document.getElementById('button-rate-images')
 const imagesContainer = document.getElementById('container-images')
 
 /// Model
+let name
 let imagesPath
 
 /// UI Actions
@@ -43,13 +45,23 @@ imagesButton.addEventListener('click', event => {
   dialog.showOpenDialog(window, {properties: ['openDirectory']},
     filePaths => {
       if (filePaths && filePaths[0]) {
-        enableRateImagesButton()
         imagesPath = filePaths[0]
         imagesInput.value = imagesPath
+        if (imagesPath && name) {
+          enableRateImagesButton()
+        }
       } else if (!imagesPath) {
         showError(imagesContainer)
       }
     })
+})
+
+// User's name
+nameInput.addEventListener('change', event => {
+  name = nameInput.value
+  if (imagesPath && name) {
+    enableRateImagesButton()
+  }
 })
 
 // Navigate to rating images
