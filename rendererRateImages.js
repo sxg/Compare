@@ -11,15 +11,9 @@ const path = require('path')
 
 /// Helpers
 const rateImage = function (question, rating) {
-  // Parse the question and rating
-  // `question` is like 'q1', 'q2', 'q3', etc.
-  // `rating` is like 'r1', 'r2', 'r3', etc.
-  const qMatch = (/q([1-5])/g).exec(question)
-  const rMatch = (/r([1-5])/g).exec(rating)
-
   // Set the rating in the user state
-  const qProperty = 'q' + String(qMatch[1]) + 'Rating'
-  userState[qProperty] = parseInt(rMatch[1])
+  const questionRatingKey = question + 'Rating'
+  userState[questionRatingKey] = rating
 
   // Check if the next button should be enabled
   if (userState.q1Rating &&
@@ -127,22 +121,24 @@ const isPreviousButtonEnabled = function () {
   return !previousButton.classList.contains('disabled')
 }
 
-const loadRatingButtons = function () {
-  // Erase all rating button selections
-  document.querySelectorAll('.button.rating').forEach(ratingButton => {
+const clearRatingButtons = function (question) {
+  document.querySelectorAll('.button.rating.' + question).forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
+  })
+}
+
+const loadRatingButtons = function () {
+  const questions = [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5]
+
+  // Erase all rating button selections
+  questions.forEach(question => {
+    clearRatingButtons(question)
   })
 
   // Load user state rating button selections
-  const questions = [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5]
   questions.forEach(question => {
-    const questionPropertyKey = question + 'Rating'
-    if (userState[questionPropertyKey]) {
-      const rating = 'r' + String(userState[questionPropertyKey])
-      setRatingButton(question, rating)
-    } else {
-      setRatingButton(question, null)
-    }
+    const questionRatingKey = question + 'Rating'
+    setRatingButton(question, userState[questionRatingKey])
   })
 }
 
@@ -244,7 +240,7 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
   ratingButton.addEventListener('click', event => {
     // Remove color from all rating buttons for the answered question
-    loadRatingButtons()
+    clearRatingButtons(question)
     // Color the clicked button
     setRatingButton(question, rating)
     // Store the rating in the user state
