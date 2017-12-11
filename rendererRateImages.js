@@ -66,26 +66,29 @@ const loadUserState = function () {
   }
 }
 
-const setButtonRating = function (button, rating) {
-  let color
-  switch (rating) {
-    case Rating.R1:
-      color = 'red'
-      break
-    case Rating.R2:
-      color = 'orange'
-      break
-    case Rating.R3:
-      color = 'yellow'
-      break
-    case Rating.R4:
-      color = 'olive'
-      break
-    case Rating.R5:
-      color = 'green'
-      break
+const setRatingButton = function (question, rating) {
+  if (question && rating) {
+    let color
+    switch (rating) {
+      case Rating.R1:
+        color = 'red'
+        break
+      case Rating.R2:
+        color = 'orange'
+        break
+      case Rating.R3:
+        color = 'yellow'
+        break
+      case Rating.R4:
+        color = 'olive'
+        break
+      case Rating.R5:
+        color = 'green'
+        break
+    }
+    const button = document.querySelector('.button.rating.' + question + '.' + rating)
+    button.classList.add(color)
   }
-  button.classList.add(color)
 }
 
 const enableNextButton = function () {
