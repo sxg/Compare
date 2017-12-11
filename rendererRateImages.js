@@ -51,14 +51,22 @@ const resetUserState = function () {
   userState.q5Rating = null
 }
 
+const resetButtons = function (selector) {
+  document.querySelectorAll(selector).forEach(ratingButton => {
+    ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
+  })
+}
+
 const nextImage = function () {
   // Get the next image if there is one
   if (userState.currentImageRatingIndex !== imageRatings.length - 1) {
-    // Update the user state
+    // Store the user state
+    storeUserState()
+    // Update the user state for the next image
     userState.currentImageRatingIndex++
     resetUserState()
-    const imageRating = imageRatings[userState.currentImageRatingIndex]
-    image.src = imageRating.imagePath
+    resetButtons('.button.rating')
+    image.src = imageRatings[userState.currentImageRatingIndex].imagePath
   } else {
     // Save the image ratings to a CSV file
     saveImageRatings()
@@ -130,9 +138,7 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
   ratingButton.addEventListener('click', event => {
     // Remove color from all rating buttons for the answered question
-    document.querySelectorAll('.button.rating.' + question).forEach(questionRatingButton => {
-      questionRatingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
-    })
+    resetButtons('.button.rating.' + question)
     // Color the clicked button
     let color
     switch (rating) {
