@@ -96,13 +96,13 @@ const setRatingButton = function (question, rating) {
 const enableNextButton = function () {
   if (!isNextButtonEnabled()) {
     nextButton.classList.remove('disabled')
-    nextButton.classList.add('green')
+    nextButton.classList.add('primary')
   }
 }
 
 const disableNextButton = function () {
   if (isNextButtonEnabled()) {
-    nextButton.classList.remove('green')
+    nextButton.classList.remove('primary')
     nextButton.classList.add('disabled')
   }
 }
@@ -110,14 +110,14 @@ const disableNextButton = function () {
 const enablePreviousButton = function () {
   if (!isPreviousButtonEnabled()) {
     previousButton.classList.remove('disabled')
-    previousButton.classList.add('green')
+    previousButton.classList.add('grey')
   }
 }
 
 const disablePreviousButton = function () {
   if (isPreviousButtonEnabled()) {
     previousButton.classList.remove('green')
-    previousButton.classList.add('disabled')
+    previousButton.classList.add('grey')
   }
 }
 
