@@ -33,13 +33,32 @@ const saveImageRatings = function () {
   })
 }
 
+const storeUserState = function () {
+  // Copy keys in the user state to the current image rating object
+  const i = userState.currentImageRatingIndex
+  Object.keys(userState).forEach(userStateKey => {
+    if (imageRatings[i].hasOwnProperty(userStateKey)) {
+      imageRatings[i][userStateKey] = userState[userStateKey]
+    }
+  })
+}
+
+const resetUserState = function () {
+  userState.q1Rating = null
+  userState.q2Rating = null
+  userState.q3Rating = null
+  userState.q4Rating = null
+  userState.q5Rating = null
+}
+
 const nextImage = function () {
   // Get the next image if there is one
   if (userState.currentImageRatingIndex !== imageRatings.length - 1) {
+    // Update the user state
     userState.currentImageRatingIndex++
+    resetUserState()
     const imageRating = imageRatings[userState.currentImageRatingIndex]
     image.src = imageRating.imagePath
-    resetRatings()
   } else {
     // Save the image ratings to a CSV file
     saveImageRatings()
