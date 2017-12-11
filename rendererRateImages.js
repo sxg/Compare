@@ -137,8 +137,12 @@ const loadRatingButtons = function () {
   const questions = [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5]
   questions.forEach(question => {
     const questionPropertyKey = question + 'Rating'
-    const rating = 'r' + userState[questionPropertyKey]
-    setRatingButton(question, rating)
+    if (userState[questionPropertyKey]) {
+      const rating = 'r' + String(userState[questionPropertyKey])
+      setRatingButton(question, rating)
+    } else {
+      setRatingButton(question, null)
+    }
   })
 }
 
