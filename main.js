@@ -15,7 +15,7 @@ function createWindow () {
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
+    pathname: path.join(__dirname, 'main.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -24,7 +24,7 @@ function createWindow () {
     // Load rating window
     let rateWindow = new BrowserWindow({show: false})
     rateWindow.loadURL(url.format({
-      pathname: path.join(__dirname, 'rate.html'),
+      pathname: path.join(__dirname, 'rateImages.html'),
       protocol: 'file:',
       slashes: true
     }))
