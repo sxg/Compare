@@ -36,7 +36,7 @@ const didAnswerAllQuestions = function () {
 }
 
 const saveImageRatings = function () {
-  const fileName = 'ImageRatings-' + sanitize(name) + '.csv'
+  const fileName = getFileName('.csv')
   const fields = ['imagePath', 'imageName', 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating']
   const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
   const data = _.map(imageRatings, imageRating => {
@@ -226,6 +226,10 @@ const userState = {
 const Question = Object.freeze({ Q1: 'q1', Q2: 'q2', Q3: 'q3', Q4: 'q4', Q5: 'q5' })
 const Rating = Object.freeze({ R1: 'r1', R2: 'r2', R3: 'r3', R4: 'r4', R5: 'r5' })
 
+const getFileName = function (extension) {
+  return 'ImageRatings-' + sanitize(name) + extension
+}
+
 ipcRenderer.on('Message-Setup', (event, data) => {
   name = data.name
   // Get all .png filePaths
@@ -285,7 +289,7 @@ previousButton.addEventListener('click', event => {
 
 // Quit the app
 window.addEventListener('unload', event => {
-  const fileName = 'ImageRatings-' + sanitize(name) + '.json'
+  const fileName = getFileName('.json')
   const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
   fs.writeFile(filePath, JSON.stringify(imageRatings), err => {
     if (err) {
