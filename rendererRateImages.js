@@ -175,8 +175,8 @@ const Rating = Object.freeze({ R1: 'r1', R2: 'r2', R3: 'r3', R4: 'r4', R5: 'r5' 
 ipcRenderer.on('Message-ImagesPath', (event, data) => {
   // Get all .png filePaths
   let fileNames = fs.readdirSync(data.imagesPath)
-  _.remove(fileNames, filePath => {
-    return path.extname(filePath) !== '.png'
+  _.remove(fileNames, fileName => {
+    return path.extname(fileName) !== '.png'
   })
   // Shuffle the order of the images
   fileNames = _.shuffle(fileNames)
