@@ -19,7 +19,7 @@ const rateImage = function (question, rating) {
 
   // Set the rating in the user state
   const qProperty = 'q' + String(qMatch[1]) + 'Rating'
-  userState[qProperty] = String(rMatch[1])
+  userState[qProperty] = parseInt(rMatch[1])
 }
 
 const saveImageRatings = function () {
