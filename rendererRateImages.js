@@ -1,6 +1,7 @@
 /// Import dependencies
 // Electron components
 const {ipcRenderer} = require('electron')
+const {app} = require('electron').remote
 
 // Node dependencies
 const Mousetrap = require('mousetrap')
@@ -285,7 +286,8 @@ previousButton.addEventListener('click', event => {
 // Quit the app
 window.addEventListener('unload', event => {
   const fileName = 'ImageRatings-' + sanitize(name) + '.json'
-  fs.writeFile(fileName, JSON.stringify(imageRatings), err => {
+  const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
+  fs.writeFile(filePath, JSON.stringify(imageRatings), err => {
     if (err) {
       console.error(new Error(err))
     }
