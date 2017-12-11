@@ -20,6 +20,15 @@ const rateImage = function (question, rating) {
   // Set the rating in the user state
   const qProperty = 'q' + String(qMatch[1]) + 'Rating'
   userState[qProperty] = parseInt(rMatch[1])
+
+  // Check if the next button should be enabled
+  if (userState.q1Rating &&
+  userState.q2Rating &&
+  userState.q3Rating &&
+  userState.q4Rating &&
+  userState.q5Rating) {
+    enableNextButton()
+  }
 }
 
 const saveImageRatings = function () {
@@ -75,13 +84,23 @@ const setButtonRating = function (button, rating) {
   button.classList.add(color)
 }
 
+const enableNextButton = function () {
+  nextButton.classList.remove('disabled')
+  nextButton.classList.add('green')
+}
+
+const disableNextButton = function () {
+  nextButton.classList.remove('green')
+  nextButton.classList.add('disabled')
+}
+
 const resetButtons = function (selector) {
   document.querySelectorAll(selector).forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
   })
 }
 
-const nextImage = function () {
+const next = function () {
   // Get the next image if there is one
   if (userState.currentImageRatingIndex < imageRatings.length) {
     // Store the user state
@@ -90,6 +109,7 @@ const nextImage = function () {
     userState.currentImageRatingIndex++
     resetUserState()
     resetButtons('.button.rating')
+    disableNextButton()
     image.src = imageRatings[userState.currentImageRatingIndex].imagePath
   } else {
     // Save the image ratings to a CSV file
@@ -100,6 +120,10 @@ const nextImage = function () {
 /// View
 // Image
 const image = document.getElementById('image')
+
+// Buttons
+const nextButton = document.getElementById('button-next')
+const previousButton = document.getElementById('button-previous')
 
 /// Model
 let imageRatings
@@ -138,7 +162,7 @@ ipcRenderer.on('Message-ImagesPath', (event, data) => {
   })
 
   // Load the first image
-  nextImage()
+  next()
 })
 
 /// UI Actions
@@ -154,6 +178,11 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
     // Store the rating in the user state
     rateImage(question, rating)
   })
+})
+
+// Next button
+nextButton.addEventListener('click', event => {
+  next()
 })
 
 // Key bindings for rating buttons
