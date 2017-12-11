@@ -106,11 +106,34 @@ ipcRenderer.on('Message-ImagesPath', (event, data) => {
 
 /// UI Actions
 // Rating buttons
-const ratingButtons = document.querySelectorAll('.button')
-ratingButtons.forEach(ratingButton => {
-  const question = _.intersection(ratingButton.classList, [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5])
-  const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])
-  ratingButton.addEventListener('click', event => { rateImage(question, rating) })
+document.querySelectorAll('.button.rating').forEach(ratingButton => {
+  const question = _.intersection(ratingButton.classList, [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5])[0]
+  const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
+  ratingButton.addEventListener('click', event => {
+    document.querySelectorAll('.button.rating.' + question).forEach(questionRatingButton => {
+      questionRatingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
+    })
+    let color
+    switch (rating) {
+      case Rating.R1:
+        color = 'red'
+        break
+      case Rating.R2:
+        color = 'orange'
+        break
+      case Rating.R3:
+        color = 'yellow'
+        break
+      case Rating.R4:
+        color = 'olive'
+        break
+      case Rating.R5:
+        color = 'green'
+        break
+    }
+    ratingButton.classList.add(color)
+    rateImage(question, rating)
+  })
 })
 
 // Key bindings for rating buttons
