@@ -56,6 +56,36 @@ const saveImageRatings = function () {
   })
 }
 
+const loadImageRatings = function (imagesPath) {
+  const fileName = getFileName('.json')
+  const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
+  if (fs.existsSync(filePath)) {
+    imageRatings = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+  } else {
+    // Get all .png filePaths
+    let fileNames = fs.readdirSync(imagesPath)
+    _.remove(fileNames, fileName => {
+      return path.extname(fileName) !== '.png'
+    })
+    // Shuffle the order of the images
+    fileNames = _.shuffle(fileNames)
+
+    // Initialize the image ratings
+    imageRatings = _.map(fileNames, fileName => {
+      const filePath = path.join(imagesPath, fileName)
+      return {
+        imagePath: filePath,
+        imageName: path.basename(filePath, '.png'),
+        q1Rating: null,
+        q2Rating: null,
+        q3Rating: null,
+        q4Rating: null,
+        q5Rating: null
+      }
+    })
+  }
+}
+
 const storeUserState = function () {
   // Copy keys in the user state to the current image rating object
   const i = userState.currentImageRatingIndex
@@ -141,6 +171,20 @@ const isPreviousButtonEnabled = function () {
   return !previousButton.classList.contains('disabled')
 }
 
+const updateNavigationButtonsState = function () {
+  if (userState.currentImageRatingIndex === imageRatings.length - 1 || !didAnswerAllQuestions()) {
+    disableNextButton()
+  } else {
+    enableNextButton()
+  }
+
+  if (userState.currentImageRatingIndex > 0) {
+    enablePreviousButton()
+  } else {
+    disablePreviousButton()
+  }
+}
+
 const clearRatingButtons = function (question) {
   document.querySelectorAll('.button.rating.' + question).forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
@@ -169,13 +213,7 @@ const next = function () {
   userState.currentImageRatingIndex++
   loadUserState()
   loadRatingButtons()
-  if (userState.currentImageRatingIndex === imageRatings.length - 1 || !didAnswerAllQuestions()) {
-    disableNextButton()
-  }
-
-  if (userState.currentImageRatingIndex > 0) {
-    enablePreviousButton()
-  }
+  updateNavigationButtonsState()
 
   // Get the next image if there is one
   if (userState.currentImageRatingIndex >= 0 && userState.currentImageRatingIndex < imageRatings.length) {
@@ -193,13 +231,7 @@ const previous = function () {
   userState.currentImageRatingIndex--
   loadUserState()
   loadRatingButtons()
-  if (userState.currentImageRatingIndex === 0) {
-    disablePreviousButton()
-  }
-
-  if (userState.currentImageRatingIndex !== imageRatings.length - 1 && didAnswerAllQuestions()) {
-    enableNextButton()
-  }
+  updateNavigationButtonsState()
 
   // Get the previous image
   image.src = imageRatings[userState.currentImageRatingIndex].imagePath
@@ -232,28 +264,11 @@ const getFileName = function (extension) {
 }
 
 ipcRenderer.on('Message-Setup', (event, data) => {
+  // Set the user's name and initialize the image ratings
   name = data.name
-  // Get all .png filePaths
-  let fileNames = fs.readdirSync(data.imagesPath)
-  _.remove(fileNames, fileName => {
-    return path.extname(fileName) !== '.png'
-  })
-  // Shuffle the order of the images
-  fileNames = _.shuffle(fileNames)
-
-  // Initialize image ratings
-  imageRatings = _.map(fileNames, fileName => {
-    const filePath = path.join(data.imagesPath, fileName)
-    return {
-      imagePath: filePath,
-      imageName: path.basename(filePath, '.png'),
-      q1Rating: null,
-      q2Rating: null,
-      q3Rating: null,
-      q4Rating: null,
-      q5Rating: null
-    }
-  })
+  loadImageRatings(data.imagesPath)
+  loadUserState()
+  loadRatingButtons()
 
   // Load the first image
   next()
@@ -292,7 +307,7 @@ previousButton.addEventListener('click', event => {
 window.addEventListener('unload', event => {
   const fileName = getFileName('.json')
   const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
-  fs.writeFile(filePath, JSON.stringify(imageRatings), err => {
+  fs.writeFile(filePath, JSON.stringify(imageRatings), 'utf8', err => {
     if (err) {
       console.error(new Error(err))
     }
