@@ -97,11 +97,25 @@ const disableNextButton = function () {
   nextButton.classList.add('disabled')
 }
 
+const enablePreviousButton = function () {
+  previousButton.classList.remove('disabled')
+  previousButton.classList.add('green')
+}
+
+const disablePreviousButton = function () {
+  previousButton.classList.remove('green')
+  previousButton.classList.add('disabled')
+}
+
 const isNextButtonEnabled = function () {
   return !nextButton.classList.contains('disabled')
 }
 
-const resetButtons = function (selector) {
+const isPreviousButtonEnabled = function () {
+  return !previousButton.classList.contains('disabled')
+}
+
+const resetRatingButtons = function (selector) {
   document.querySelectorAll(selector).forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
   })
@@ -113,7 +127,7 @@ const next = function () {
   // Update the user state for the next image
   userState.currentImageRatingIndex++
   loadUserState()
-  resetButtons('.button.rating')
+  resetRatingButtons('.button.rating')
   disableNextButton()
 
   // Get the next image if there is one
@@ -180,7 +194,7 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
   ratingButton.addEventListener('click', event => {
     // Remove color from all rating buttons for the answered question
-    resetButtons('.button.rating.' + question)
+    resetRatingButtons('.button.rating.' + question)
     // Color the clicked button
     setButtonRating(ratingButton, rating)
     // Store the rating in the user state
