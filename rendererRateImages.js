@@ -55,6 +55,7 @@ const storeUserState = function () {
 }
 
 const loadUserState = function () {
+  // Load the user state from the image rating
   const i = userState.currentImageRatingIndex
   if (i >= 0 && i < imageRatings.length) {
     Object.keys(imageRatings[i]).forEach(imageRatingKey => {
