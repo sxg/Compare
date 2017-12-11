@@ -16,12 +16,20 @@ const rateImage = function (question, rating) {
   userState[questionRatingKey] = rating
 
   // Check if the next button should be enabled
+  if (didAnswerAllQuestions()) {
+    enableNextButton()
+  }
+}
+
+const didAnswerAllQuestions = function () {
   if (userState.q1Rating &&
   userState.q2Rating &&
   userState.q3Rating &&
   userState.q4Rating &&
   userState.q5Rating) {
-    enableNextButton()
+    return true
+  } else {
+    return false
   }
 }
 
@@ -157,7 +165,7 @@ const next = function () {
   userState.currentImageRatingIndex++
   loadUserState()
   loadRatingButtons()
-  if (userState.currentImageRatingIndex === imageRatings.length - 1) {
+  if (userState.currentImageRatingIndex === imageRatings.length - 1 || !didAnswerAllQuestions()) {
     disableNextButton()
   }
 
@@ -185,7 +193,7 @@ const previous = function () {
     disablePreviousButton()
   }
 
-  if (userState.currentImageRatingIndex !== imageRatings.length - 1) {
+  if (userState.currentImageRatingIndex !== imageRatings.length - 1 && didAnswerAllQuestions()) {
     enableNextButton()
   }
 
