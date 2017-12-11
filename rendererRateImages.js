@@ -117,7 +117,7 @@ const enablePreviousButton = function () {
 const disablePreviousButton = function () {
   if (isPreviousButtonEnabled()) {
     previousButton.classList.remove('green')
-    previousButton.classList.add('grey')
+    previousButton.classList.add('disabled')
   }
 }
 
