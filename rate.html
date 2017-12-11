@@ -12,35 +12,141 @@
   </head>
   <body>
 
-    <div class="ui centered padded grid child">
+    <div class="ui equal height grid child">
 
       <!-- Image -->
-      <div class="two column row">
-        <div class="column">
-          <img id="image" class="ui fluid image" src="sagittalBrain.png">
-        </div>
+      <div class="nine wide column">
+        <img id="image" class="ui fluid image" src="sagittalBrain.png">
       </div>
 
-      <!-- Rating buttons -->
-      <div class="fifteen column row">
-        <div class="column">
-          <button class="ui fluid red button q1 r1">1</button>
+      <!-- Questions -->
+      <div class="seven wide column">
+
+        <div class="ui sixteen wide grid child">
+
+          <!-- Question 1 -->
+          <div class="left aligned sixteen wide row question">
+            <h3 class="ui header inverted grey"><span class="ui inverted blue padded circular label">1</span>Clear visualization of endocardial border</h3>
+          </div>
+          <div class="sixteen wide row">
+            <div class="two wide column">
+              <button class="ui fluid red button q1 r1">1</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid orange button q1 r2">2</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid yellow button q1 r3">3</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid olive button q1 r4">4</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid green button q1 r5">5</button>
+            </div>
+          </div>
+
+          <div class="ui hidden divider"></div>
+
+          <!-- Question 2 -->
+          <div class="left aligned sixteen wide row question">
+            <h3 class="ui header inverted grey"><span class="ui inverted blue padded circular label">2</span>Clear visualization of epicardial border</h3>
+          </div>
+          <div class="sixteen wide row">
+            <div class="two wide column">
+              <button class="ui fluid red button q2 r1">1</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid orange button q2 r2">2</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid yellow button q2 r3">3</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid olive button q2 r4">4</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid green button q2 r5">5</button>
+            </div>
+          </div>
+
+          <div class="ui hidden divider"></div>
+
+          <!-- Question 3 -->
+          <div class="left aligned sixteen wide row question">
+            <h3 class="ui header inverted grey"><span class="ui inverted blue padded circular label">3</span>Visibility of right ventricular wall</h3>
+          </div>
+          <div class="sixteen wide row">
+            <div class="two wide column">
+              <button class="ui fluid red button q3 r1">1</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid orange button q3 r2">2</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid yellow button q3 r3">3</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid olive button q3 r4">4</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid green button q3 r5">5</button>
+            </div>
+          </div>
+
+          <div class="ui hidden divider"></div>
+      
+          <!-- Question 4 -->
+          <div class="left aligned sixteen wide row question">
+            <h3 class="ui header inverted grey"><span class="ui inverted blue padded circular label">4</span>Artefact interfering with confidence of ROI</h3>
+          </div>
+          <div class="sixteen wide row">
+            <div class="two wide column">
+              <button class="ui fluid red button q4 r1">1</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid orange button q4 r2">2</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid yellow button q4 r3">3</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid olive button q4 r4">4</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid green button q4 r5">5</button>
+            </div>
+          </div>
+
+          <div class="ui hidden divider"></div>
+    
+          <!-- Question 5 -->
+          <div class="left aligned sixteen wide row question">
+            <h3 class="ui header inverted grey"><span class="ui inverted blue padded circular label">5</span>Overall diagnostic confidence with the map</h3>
+          </div>
+          <div class="sixteen wide row">
+            <div class="two wide column">
+              <button class="ui fluid red button q5 r1">1</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid orange button q5 r2">2</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid yellow button q5 r3">3</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid olive button q5 r4">4</button>
+            </div>
+            <div class="two wide column">
+              <button class="ui fluid green button q5 r5">5</button>
+            </div>
+          </div>
+        
         </div>
-        <div class="column">
-          <button class="ui fluid orange button q1 r2">2</button>
-        </div>
-        <div class="column">
-          <button class="ui fluid yellow button q1 r3">3</button>
-        </div>
-        <div class="column">
-          <button class="ui fluid olive button q1 r4">4</button>
-        </div>
-        <div class="column">
-          <button class="ui fluid green button q1 r5">5</button>
-        </div>
+
       </div>
 
-    </div>
+   </div>
 
     <script>
       require('./rendererRateImages.js')

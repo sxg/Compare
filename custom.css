@@ -8,3 +8,7 @@
     user-select: none;
     pointer-events: none;
 }
+
+.ui .header .label {
+    margin-right: 15px;
+}
