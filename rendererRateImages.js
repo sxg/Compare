@@ -127,9 +127,18 @@ const isPreviousButtonEnabled = function () {
   return !previousButton.classList.contains('disabled')
 }
 
-const resetRatingButtons = function (selector) {
-  document.querySelectorAll(selector).forEach(ratingButton => {
+const loadRatingButtons = function () {
+  // Erase all rating button selections
+  document.querySelectorAll('.button.rating').forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
+  })
+
+  // Load user state rating button selections
+  const questions = [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5]
+  questions.forEach(question => {
+    const questionPropertyKey = question + 'Rating'
+    const rating = 'r' + userState[questionPropertyKey]
+    setRatingButton(question, rating)
   })
 }
 
@@ -139,16 +148,41 @@ const next = function () {
   // Update the user state for the next image
   userState.currentImageRatingIndex++
   loadUserState()
-  resetRatingButtons('.button.rating')
-  disableNextButton()
+  loadRatingButtons()
+  if (userState.currentImageRatingIndex === imageRatings.length - 1) {
+    disableNextButton()
+  }
+
+  if (userState.currentImageRatingIndex > 0) {
+    enablePreviousButton()
+  }
 
   // Get the next image if there is one
-  if (userState.currentImageRatingIndex < imageRatings.length) {
+  if (userState.currentImageRatingIndex >= 0 && userState.currentImageRatingIndex < imageRatings.length) {
     image.src = imageRatings[userState.currentImageRatingIndex].imagePath
   } else {
     // Save the image ratings to a CSV file
     saveImageRatings()
   }
+}
+
+const previous = function () {
+  // Store the user state
+  storeUserState()
+  // Update the user state for the previous image
+  userState.currentImageRatingIndex--
+  loadUserState()
+  loadRatingButtons()
+  if (userState.currentImageRatingIndex === 0) {
+    disablePreviousButton()
+  }
+
+  if (userState.currentImageRatingIndex !== imageRatings.length - 1) {
+    enableNextButton()
+  }
+
+  // Get the previous image
+  image.src = imageRatings[userState.currentImageRatingIndex].imagePath
 }
 
 /// View
@@ -206,9 +240,9 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
   ratingButton.addEventListener('click', event => {
     // Remove color from all rating buttons for the answered question
-    resetRatingButtons('.button.rating.' + question)
+    loadRatingButtons()
     // Color the clicked button
-    setButtonRating(ratingButton, rating)
+    setRatingButton(question, rating)
     // Store the rating in the user state
     rateImage(question, rating)
   })
@@ -218,6 +252,13 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
 nextButton.addEventListener('click', event => {
   if (isNextButtonEnabled()) {
     next()
+  }
+})
+
+// Previous button
+previousButton.addEventListener('click', event => {
+  if (isPreviousButtonEnabled()) {
+    previous()
   }
 })
 
