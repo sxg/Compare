@@ -54,12 +54,15 @@ const storeUserState = function () {
   }
 }
 
-const resetUserState = function () {
-  userState.q1Rating = null
-  userState.q2Rating = null
-  userState.q3Rating = null
-  userState.q4Rating = null
-  userState.q5Rating = null
+const loadUserState = function () {
+  const i = userState.currentImageRatingIndex
+  if (i >= 0 && i < imageRatings.length) {
+    Object.keys(imageRatings[i]).forEach(imageRatingKey => {
+      if (userState.hasOwnProperty(imageRatingKey)) {
+        userState[imageRatingKey] = imageRatings[i][imageRatingKey]
+      }
+    })
+  }
 }
 
 const setButtonRating = function (button, rating) {
@@ -105,15 +108,16 @@ const resetButtons = function (selector) {
 }
 
 const next = function () {
+  // Store the user state
+  storeUserState()
+  // Update the user state for the next image
+  userState.currentImageRatingIndex++
+  loadUserState()
+  resetButtons('.button.rating')
+  disableNextButton()
+
   // Get the next image if there is one
   if (userState.currentImageRatingIndex < imageRatings.length) {
-    // Store the user state
-    storeUserState()
-    // Update the user state for the next image
-    userState.currentImageRatingIndex++
-    resetUserState()
-    resetButtons('.button.rating')
-    disableNextButton()
     image.src = imageRatings[userState.currentImageRatingIndex].imagePath
   } else {
     // Save the image ratings to a CSV file
