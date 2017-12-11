@@ -49,9 +49,16 @@ const saveImageRatings = function () {
     return imageRating
   })
   const imageRatingsCSV = json2csv({ data: data, fields: fields, fieldNames: fieldNames })
-  fs.writeFileSync(fileName, imageRatingsCSV, function (err) {
+  fs.writeFile(fileName, imageRatingsCSV, err => {
     if (err) {
       console.error(new Error(err))
+    } else {
+      // Delete the JSON file
+      const jsonFileName = getFileName('.json')
+      const jsonFilePath = path.join(app.getPath('appData'), app.getName(), jsonFileName)
+      if (fs.existsSync(jsonFilePath)) {
+        fs.unlinkSync(jsonFilePath)
+      }
     }
   })
 }
