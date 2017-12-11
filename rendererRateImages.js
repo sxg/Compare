@@ -110,9 +110,11 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const question = _.intersection(ratingButton.classList, [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5])[0]
   const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
   ratingButton.addEventListener('click', event => {
+    // Remove color from all rating buttons for the answered question
     document.querySelectorAll('.button.rating.' + question).forEach(questionRatingButton => {
       questionRatingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
     })
+    // Color the clicked button
     let color
     switch (rating) {
       case Rating.R1:
@@ -132,6 +134,7 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
         break
     }
     ratingButton.classList.add(color)
+    // Store the rating in the user state
     rateImage(question, rating)
   })
 })
