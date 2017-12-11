@@ -39,7 +39,8 @@ const saveImageRatings = function () {
   const fileName = getFileName('.csv')
   const fields = ['imagePath', 'imageName', 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating']
   const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
-  const data = _.map(imageRatings, imageRating => {
+  const imageRatingsClone = _.cloneDeep(imageRatings)
+  const data = _.map(imageRatingsClone, imageRating => {
     imageRating.q1Rating = (/r([1-5])/g).exec(imageRating.q1Rating)[1]
     imageRating.q2Rating = (/r([1-5])/g).exec(imageRating.q2Rating)[1]
     imageRating.q3Rating = (/r([1-5])/g).exec(imageRating.q3Rating)[1]
