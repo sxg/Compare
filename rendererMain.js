@@ -70,7 +70,11 @@ rateImagesButton.addEventListener('click', event => {
     hideErrors()
 
     // Send messagee to main process
-    ipcRenderer.send('Message-ImagesPath', {imagesPath: imagesPath})
+    const data = {
+      imagesPath: imagesPath,
+      name: name
+    }
+    ipcRenderer.send('Message-Setup', data)
 
     // Close the main window
     window.close()

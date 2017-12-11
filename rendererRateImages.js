@@ -6,6 +6,7 @@ const {ipcRenderer} = require('electron')
 const Mousetrap = require('mousetrap')
 const _ = require('lodash')
 const json2csv = require('json2csv')
+const sanitize = require('sanitize-filename')
 const fs = require('fs')
 const path = require('path')
 
@@ -34,6 +35,7 @@ const didAnswerAllQuestions = function () {
 }
 
 const saveImageRatings = function () {
+  const fileName = 'ImageRatings-' + sanitize(name) + '.csv'
   const fields = ['imagePath', 'imageName', 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating']
   const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
   const data = _.map(imageRatings, imageRating => {
@@ -45,7 +47,7 @@ const saveImageRatings = function () {
     return imageRating
   })
   const imageRatingsCSV = json2csv({ data: data, fields: fields, fieldNames: fieldNames })
-  fs.writeFileSync('ImageRatings.csv', imageRatingsCSV, function (err) {
+  fs.writeFileSync(fileName, imageRatingsCSV, function (err) {
     if (err) {
       console.error(new Error(err))
     }
@@ -211,6 +213,7 @@ const previousButton = document.getElementById('button-previous')
 
 /// Model
 let imageRatings
+let name
 const userState = {
   currentImageRatingIndex: -1,
   q1Rating: null,
@@ -222,7 +225,8 @@ const userState = {
 const Question = Object.freeze({ Q1: 'q1', Q2: 'q2', Q3: 'q3', Q4: 'q4', Q5: 'q5' })
 const Rating = Object.freeze({ R1: 'r1', R2: 'r2', R3: 'r3', R4: 'r4', R5: 'r5' })
 
-ipcRenderer.on('Message-ImagesPath', (event, data) => {
+ipcRenderer.on('Message-Setup', (event, data) => {
+  name = data.name
   // Get all .png filePaths
   let fileNames = fs.readdirSync(data.imagesPath)
   _.remove(fileNames, fileName => {

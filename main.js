@@ -20,7 +20,7 @@ function createWindow () {
     slashes: true
   }))
 
-  ipcMain.on('Message-ImagesPath', (event, data) => {
+  ipcMain.on('Message-Setup', (event, data) => {
     // Load rating window
     let rateWindow = new BrowserWindow({show: false})
     rateWindow.loadURL(url.format({
@@ -31,7 +31,7 @@ function createWindow () {
 
     // Send data to the rating window
     rateWindow.webContents.on('did-finish-load', () => {
-      rateWindow.webContents.send('Message-ImagesPath', data)
+      rateWindow.webContents.send('Message-Setup', data)
     })
 
     // Show the rating window
