@@ -53,6 +53,28 @@ const resetUserState = function () {
   userState.q5Rating = null
 }
 
+const setButtonRating = function (button, rating) {
+  let color
+  switch (rating) {
+    case Rating.R1:
+      color = 'red'
+      break
+    case Rating.R2:
+      color = 'orange'
+      break
+    case Rating.R3:
+      color = 'yellow'
+      break
+    case Rating.R4:
+      color = 'olive'
+      break
+    case Rating.R5:
+      color = 'green'
+      break
+  }
+  button.classList.add(color)
+}
+
 const resetButtons = function (selector) {
   document.querySelectorAll(selector).forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
@@ -128,25 +150,7 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
     // Remove color from all rating buttons for the answered question
     resetButtons('.button.rating.' + question)
     // Color the clicked button
-    let color
-    switch (rating) {
-      case Rating.R1:
-        color = 'red'
-        break
-      case Rating.R2:
-        color = 'orange'
-        break
-      case Rating.R3:
-        color = 'yellow'
-        break
-      case Rating.R4:
-        color = 'olive'
-        break
-      case Rating.R5:
-        color = 'green'
-        break
-    }
-    ratingButton.classList.add(color)
+    setButtonRating(ratingButton, rating)
     // Store the rating in the user state
     rateImage(question, rating)
   })
