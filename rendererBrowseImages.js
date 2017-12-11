@@ -15,6 +15,10 @@ const enableRateImagesButton = function () {
   rateImagesButton.classList.remove('disabled')
 }
 
+const isRateImagesButtonEnabled = function () {
+  return !rateImagesButton.classList.contains('disabled')
+}
+
 /// View
 // Window
 let window = remote.getCurrentWindow()
@@ -50,12 +54,14 @@ imagesButton.addEventListener('click', event => {
 
 // Navigate to rating images
 rateImagesButton.addEventListener('click', event => {
-  hideErrors()
+  if (isRateImagesButtonEnabled()) {
+    hideErrors()
 
-  // Send messagee to main process
-  ipcRenderer.send('Message-ImagesPath', {imagesPath: imagesPath})
+    // Send messagee to main process
+    ipcRenderer.send('Message-ImagesPath', {imagesPath: imagesPath})
 
-  // Close the main window
-  window.close()
-  window = null
+    // Close the main window
+    window.close()
+    window = null
+  }
 })
