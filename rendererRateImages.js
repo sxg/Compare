@@ -36,11 +36,13 @@ const saveImageRatings = function () {
 const storeUserState = function () {
   // Copy keys in the user state to the current image rating object
   const i = userState.currentImageRatingIndex
-  Object.keys(userState).forEach(userStateKey => {
-    if (imageRatings[i].hasOwnProperty(userStateKey)) {
-      imageRatings[i][userStateKey] = userState[userStateKey]
-    }
-  })
+  if (i >= 0 && i < imageRatings.length) {
+    Object.keys(userState).forEach(userStateKey => {
+      if (imageRatings[i].hasOwnProperty(userStateKey)) {
+        imageRatings[i][userStateKey] = userState[userStateKey]
+      }
+    })
+  }
 }
 
 const resetUserState = function () {
