@@ -94,6 +94,10 @@ const disableNextButton = function () {
   nextButton.classList.add('disabled')
 }
 
+const isNextButtonEnabled = function () {
+  return !nextButton.classList.contains('disabled')
+}
+
 const resetButtons = function (selector) {
   document.querySelectorAll(selector).forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
@@ -182,7 +186,9 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
 
 // Next button
 nextButton.addEventListener('click', event => {
-  next()
+  if (isNextButtonEnabled()) {
+    next()
+  }
 })
 
 // Key bindings for rating buttons
