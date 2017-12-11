@@ -282,6 +282,16 @@ previousButton.addEventListener('click', event => {
   }
 })
 
+// Quit the app
+window.addEventListener('unload', event => {
+  const fileName = 'ImageRatings-' + sanitize(name) + '.json'
+  fs.writeFile(fileName, JSON.stringify(imageRatings), err => {
+    if (err) {
+      console.error(new Error(err))
+    }
+  })
+})
+
 // Key bindings for rating buttons
 Mousetrap.bind('1', event => { rateImage(1) })
 Mousetrap.bind('2', event => { rateImage(2) })
