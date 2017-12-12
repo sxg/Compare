@@ -1,7 +1,7 @@
 /// Import dependencies
 // Electron components
-const {ipcRenderer} = require('electron')
-const {app} = require('electron').remote
+const {ipcRenderer, remote} = require('electron')
+const {app} = remote
 
 // Node dependencies
 const Mousetrap = require('mousetrap')
@@ -10,6 +10,7 @@ const json2csv = require('json2csv')
 const sanitize = require('sanitize-filename')
 const fs = require('fs')
 const path = require('path')
+const url = require('url')
 
 /// Helpers
 const rateImage = function (question, rating) {
@@ -228,6 +229,13 @@ const next = function () {
   } else {
     // Save the image ratings to a CSV file
     saveImageRatings()
+
+    // Load the done screen
+    remote.getCurrentWindow().loadURL(url.format({
+      pathname: path.join(__dirname, 'done.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
   }
 }
 
