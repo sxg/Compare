@@ -15,6 +15,6 @@ doneButton.addEventListener('click', event => {
 })
 
 // Keybindings
-Mousetrap.bind('enter', event => {
+Mousetrap.bind(['enter', 'space'], event => {
   app.quit()
 })
