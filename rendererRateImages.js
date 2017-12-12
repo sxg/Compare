@@ -385,7 +385,7 @@ Mousetrap.bind('5', event => {
   rateImage(getCurrentQuestion(), Rating.R5)
 })
 
-Mousetrap.bind(['enter', 'right', 'n'], event => {
+Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
   if (isNextButtonEnabled()) {
     next()
   }
