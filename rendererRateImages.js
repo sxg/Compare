@@ -37,7 +37,7 @@ const didAnswerAllQuestions = function () {
 }
 
 const saveImageRatings = function () {
-  const fileName = getFileName('.csv')
+  const filePath = path.join(savePath, getFileName('.csv'))
   const fields = ['imagePath', 'imageName', 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating']
   const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
   const imageRatingsClone = _.cloneDeep(imageRatings)
@@ -50,7 +50,7 @@ const saveImageRatings = function () {
     return imageRating
   })
   const imageRatingsCSV = json2csv({ data: data, fields: fields, fieldNames: fieldNames })
-  fs.writeFile(fileName, imageRatingsCSV, err => {
+  fs.writeFile(filePath, imageRatingsCSV, err => {
     if (err) {
       console.error(new Error(err))
     } else {
@@ -262,6 +262,7 @@ const previousButton = document.getElementById('button-previous')
 
 /// Model
 let imageRatings
+let savePath
 let name
 const userState = {
   currentImageRatingIndex: -1,
@@ -295,6 +296,7 @@ const getCurrentQuestion = function () {
 ipcRenderer.on('Message-Setup', (event, data) => {
   // Set the user's name and initialize the image ratings
   name = data.name
+  savePath = data.savePath
   loadImageRatings(data.imagesPath)
   loadUserState()
   loadRatingButtons()
