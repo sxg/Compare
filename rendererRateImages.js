@@ -278,6 +278,20 @@ const getFileName = function (extension) {
   return 'ImageRatings-' + sanitize(name) + extension
 }
 
+const getCurrentQuestion = function () {
+  if (userState.q1Rating === null) {
+    return Question.Q1
+  } else if (userState.q2Rating === null) {
+    return Question.Q2
+  } else if (userState.q3Rating === null) {
+    return Question.Q3
+  } else if (userState.q4Rating === null) {
+    return Question.Q4
+  } else {
+    return Question.Q5
+  }
+}
+
 ipcRenderer.on('Message-Setup', (event, data) => {
   // Set the user's name and initialize the image ratings
   name = data.name
@@ -330,8 +344,43 @@ window.addEventListener('unload', event => {
 })
 
 // Key bindings for rating buttons
-Mousetrap.bind('1', event => { rateImage(1) })
-Mousetrap.bind('2', event => { rateImage(2) })
-Mousetrap.bind('3', event => { rateImage(3) })
-Mousetrap.bind('4', event => { rateImage(4) })
-Mousetrap.bind('5', event => { rateImage(5) })
+Mousetrap.bind('1', event => {
+  // Remove color from all rating buttons for the answered question
+  clearRatingButtons(getCurrentQuestion(), Rating.R1)
+  // Color the clicked button
+  setRatingButton(getCurrentQuestion(), Rating.R1)
+  // Store the rating in the user state
+  rateImage(getCurrentQuestion(), Rating.R1)
+})
+Mousetrap.bind('2', event => {
+  // Remove color from all rating buttons for the answered question
+  clearRatingButtons(getCurrentQuestion(), Rating.R2)
+  // Color the clicked button
+  setRatingButton(getCurrentQuestion(), Rating.R2)
+  // Store the rating in the user state
+  rateImage(getCurrentQuestion(), Rating.R2)
+})
+Mousetrap.bind('3', event => {
+  // Remove color from all rating buttons for the answered question
+  clearRatingButtons(getCurrentQuestion(), Rating.R3)
+  // Color the clicked button
+  setRatingButton(getCurrentQuestion(), Rating.R3)
+  // Store the rating in the user state
+  rateImage(getCurrentQuestion(), Rating.R3)
+})
+Mousetrap.bind('4', event => {
+  // Remove color from all rating buttons for the answered question
+  clearRatingButtons(getCurrentQuestion(), Rating.R4)
+  // Color the clicked button
+  setRatingButton(getCurrentQuestion(), Rating.R4)
+  // Store the rating in the user state
+  rateImage(getCurrentQuestion(), Rating.R4)
+})
+Mousetrap.bind('5', event => {
+  // Remove color from all rating buttons for the answered question
+  clearRatingButtons(getCurrentQuestion(), Rating.R5)
+  // Color the clicked button
+  setRatingButton(getCurrentQuestion(), Rating.R5)
+  // Store the rating in the user state
+  rateImage(getCurrentQuestion(), Rating.R5)
+})
