@@ -384,3 +384,14 @@ Mousetrap.bind('5', event => {
   // Store the rating in the user state
   rateImage(getCurrentQuestion(), Rating.R5)
 })
+
+Mousetrap.bind(['enter', 'right', 'n'], event => {
+  if (isNextButtonEnabled()) {
+    next()
+  }
+})
+Mousetrap.bind(['left', 'p'], event => {
+  if (isPreviousButtonEnabled()) {
+    previous()
+  }
+})
