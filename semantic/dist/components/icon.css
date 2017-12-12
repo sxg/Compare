@@ -3318,3 +3318,7 @@ i.icon.times.rectangle.outline:before {
          Site Overrides
 *******************************/
 
+i.massive.icon,
+i.massive.icons {
+  font-size: 15em;
+}

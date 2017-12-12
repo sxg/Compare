@@ -11755,6 +11755,11 @@ i.icon.times.rectangle.outline:before {
 /*******************************
          Site Overrides
 *******************************/
+
+i.massive.icon,
+i.massive.icons {
+  font-size: 15em;
+}
 /*!
  * # Semantic UI 2.2.13 - Image
  * http://github.com/semantic-org/semantic-ui/
