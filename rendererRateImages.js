@@ -127,11 +127,11 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
   ratingButton.addEventListener('click', event => {
     // Remove color from all rating buttons for the answered question
-    View.View.clearRatingButtons(question)
+    View.clearRatingButtons(question)
     // Color the clicked button
     View.setRatingButton(question, rating)
     // Store the rating in the user state
-    Model.Model.rateImage(question, rating)
+    rateImage(question, rating)
   })
 })
 
