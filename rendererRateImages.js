@@ -13,6 +13,7 @@ const path = require('path')
 const url = require('url')
 
 // Local dependencies
+const View = require('./rendererRateImagesView.js')
 const Question = require('./question.js')
 const Rating = require('./rating.js')
 
@@ -122,31 +123,6 @@ const loadUserState = function () {
   }
 }
 
-const setRatingButton = function (question, rating) {
-  if (question && rating) {
-    let color
-    switch (rating) {
-      case Rating.R1:
-        color = 'red'
-        break
-      case Rating.R2:
-        color = 'orange'
-        break
-      case Rating.R3:
-        color = 'yellow'
-        break
-      case Rating.R4:
-        color = 'olive'
-        break
-      case Rating.R5:
-        color = 'green'
-        break
-    }
-    const button = document.querySelector('.button.rating.' + question + '.' + rating)
-    button.classList.add(color)
-  }
-}
-
 const enableNextButton = function () {
   if (!isNextButtonEnabled()) {
     nextButton.classList.remove('disabled')
@@ -214,7 +190,7 @@ const loadRatingButtons = function () {
   // Load user state rating button selections
   questions.forEach(question => {
     const questionRatingKey = question + 'Rating'
-    setRatingButton(question, userState[questionRatingKey])
+    View.setRatingButton(question, userState[questionRatingKey])
   })
 }
 
@@ -316,7 +292,7 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
     // Remove color from all rating buttons for the answered question
     clearRatingButtons(question)
     // Color the clicked button
-    setRatingButton(question, rating)
+    View.setRatingButton(question, rating)
     // Store the rating in the user state
     rateImage(question, rating)
   })
@@ -352,7 +328,7 @@ Mousetrap.bind('1', event => {
   // Remove color from all rating buttons for the answered question
   clearRatingButtons(getCurrentQuestion(), Rating.R1)
   // Color the clicked button
-  setRatingButton(getCurrentQuestion(), Rating.R1)
+  View.setRatingButton(getCurrentQuestion(), Rating.R1)
   // Store the rating in the user state
   rateImage(getCurrentQuestion(), Rating.R1)
 })
@@ -360,7 +336,7 @@ Mousetrap.bind('2', event => {
   // Remove color from all rating buttons for the answered question
   clearRatingButtons(getCurrentQuestion(), Rating.R2)
   // Color the clicked button
-  setRatingButton(getCurrentQuestion(), Rating.R2)
+  View.setRatingButton(getCurrentQuestion(), Rating.R2)
   // Store the rating in the user state
   rateImage(getCurrentQuestion(), Rating.R2)
 })
@@ -368,7 +344,7 @@ Mousetrap.bind('3', event => {
   // Remove color from all rating buttons for the answered question
   clearRatingButtons(getCurrentQuestion(), Rating.R3)
   // Color the clicked button
-  setRatingButton(getCurrentQuestion(), Rating.R3)
+  View.setRatingButton(getCurrentQuestion(), Rating.R3)
   // Store the rating in the user state
   rateImage(getCurrentQuestion(), Rating.R3)
 })
@@ -376,7 +352,7 @@ Mousetrap.bind('4', event => {
   // Remove color from all rating buttons for the answered question
   clearRatingButtons(getCurrentQuestion(), Rating.R4)
   // Color the clicked button
-  setRatingButton(getCurrentQuestion(), Rating.R4)
+  View.setRatingButton(getCurrentQuestion(), Rating.R4)
   // Store the rating in the user state
   rateImage(getCurrentQuestion(), Rating.R4)
 })
@@ -384,7 +360,7 @@ Mousetrap.bind('5', event => {
   // Remove color from all rating buttons for the answered question
   clearRatingButtons(getCurrentQuestion(), Rating.R5)
   // Color the clicked button
-  setRatingButton(getCurrentQuestion(), Rating.R5)
+  View.setRatingButton(getCurrentQuestion(), Rating.R5)
   // Store the rating in the user state
   rateImage(getCurrentQuestion(), Rating.R5)
 })
