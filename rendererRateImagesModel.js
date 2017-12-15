@@ -103,10 +103,28 @@ const loadImageRatings = function (imageRatings, imagesPath) {
   }
 }
 
+const hasNext = function (userState, imageRatings) {
+  return (userState.currentImageRatingIndex >= 0 && userState.currentImageRatingIndex < imageRatings.length)
+}
+
 const next = function (userState, imageRatings) {
-  storeUserState(userState, imageRatings)
+  imageRatings = storeUserState(userState, imageRatings)
   userState.currentImageRatingIndex++
   return loadUserState(userState, imageRatings)
+}
+
+const hasPrevious = function (userState, imageRatings) {
+  return (userState.currentImageRatingIndex >= 1 && userState.currentImageRatingIndex < imageRatings.length)
+}
+
+const previous = function (userState, imageRatings) {
+  imageRatings = storeUserState(userState, imageRatings)
+  userState.currentImageRatingIndex--
+  return loadUserState(userState, imageRatings)
+}
+
+const getImagePath = function (userState, imageRatings) {
+  return imageRatings[userState.currentImageRatingIndex].imagePath
 }
 
 // Exports
@@ -115,6 +133,10 @@ module.exports = {
   getCurrentQuestion: getCurrentQuestion,
   didAnswerAllQuestions: didAnswerAllQuestions,
   next: next,
+  hasNext: hasNext,
+  previous: previous,
+  hasPrevious: hasPrevious,
+  getImagePath: getImagePath,
   saveImageRatings: saveImageRatings,
   loadImageRatings: loadImageRatings
 }

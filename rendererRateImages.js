@@ -41,21 +41,6 @@ const rateImage = function (userState, question, rating) {
   }
 }
 
-// Update status of the navigation buttons
-const updateNavigationButtonsState = function () {
-  if (userState.currentImageRatingIndex === imageRatings.length - 1 || !Model.didAnswerAllQuestions()) {
-    View.disableNextButton()
-  } else {
-    View.enableNextButton()
-  }
-
-  if (userState.currentImageRatingIndex > 0) {
-    View.enablePreviousButton()
-  } else {
-    View.disablePreviousButton()
-  }
-}
-
 // Select rating buttons from the user state
 const loadRatingButtons = function () {
   // Erase all rating button selections
@@ -75,11 +60,16 @@ const next = function () {
   // Increment the model
   userState = Model.next()
   loadRatingButtons()
-  updateNavigationButtonsState()
 
   // Get the next image if there is one
-  if (userState.currentImageRatingIndex >= 0 && userState.currentImageRatingIndex < imageRatings.length) {
+  if (Model.hasNext()) {
     View.setImage(imageRatings[userState.currentImageRatingIndex].imagePath)
+    View.enableNextButton()
+    if (Model.hasPrevious()) {
+      View.enablePreviousButton()
+    } else {
+      View.disablePreviousButton()
+    }
   } else {
     // Save the image ratings to a CSV file
     Model.saveImageRatings(savePath, name, imageRatings)
@@ -95,16 +85,20 @@ const next = function () {
 
 // Move to the previous question
 const previous = function () {
-  // Store the user state
-  Model.storeUserState()
-  // Update the user state for the previous image
-  userState.currentImageRatingIndex--
-  Model.loadUserState()
+  // Decrement the model
+  userState = Model.previous()
   loadRatingButtons()
-  updateNavigationButtonsState()
 
   // Get the previous image
-  View.setImage(imageRatings[userState.currentImageRatingIndex].imagePath)
+  if (Model.hasPrevious()) {
+    View.setImage(imageRatings[userState.currentImageRatingIndex].imagePath)
+    View.enablePreviousButton()
+    if (Model.hasNext()) {
+      View.enableNextButton()
+    } else {
+      View.disableNextButton()
+    }
+  }
 }
 
 /// Model
