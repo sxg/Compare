@@ -6,6 +6,9 @@ const Rating = require('./rating.js')
 const nextButton = document.getElementById('button-next')
 const previousButton = document.getElementById('button-previous')
 
+// Image
+const image = document.getElementById('image')
+
 // Update the color of the rating button
 const setRatingButton = function (question, rating) {
   if (question && rating) {
@@ -37,6 +40,11 @@ const clearRatingButtons = function (question) {
   document.querySelectorAll('.button.rating.' + question).forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
   })
+}
+
+// Update image
+const setImage = function (imagePath) {
+  image.src = imagePath
 }
 
 // Enable/Disable buttons
@@ -83,6 +91,7 @@ module.exports = {
   previousButton: previousButton,
   setRatingButton: setRatingButton,
   clearRatingButtons: clearRatingButtons,
+  setImage: setImage,
   enableNextButton: enableNextButton,
   disableNextButton: disableNextButton,
   enablePreviousButton: enablePreviousButton,
