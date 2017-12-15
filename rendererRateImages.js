@@ -157,7 +157,7 @@ window.addEventListener('unload', event => {
 // Key bindings for rating buttons
 Mousetrap.bind('1', event => {
   // Remove color from all rating buttons for the answered question
-  View.View.clearRatingButtons(Model.getCurrentQuestion(), Rating.R1)
+  View.clearRatingButtons(Model.getCurrentQuestion(), Rating.R1)
   // Color the clicked button
   View.setRatingButton(Model.getCurrentQuestion(), Rating.R1)
   // Store the rating in the user state
