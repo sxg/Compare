@@ -17,7 +17,7 @@ const View = require('./rendererRateImagesView.js')
 const Question = require('./question.js')
 const Rating = require('./rating.js')
 
-/// Helpers
+// Helpers
 const rateImage = function (question, rating) {
   // Set the rating in the user state
   const questionRatingKey = question + 'Rating'
@@ -25,7 +25,7 @@ const rateImage = function (question, rating) {
 
   // Check if the next button should be enabled
   if (didAnswerAllQuestions()) {
-    enableNextButton()
+    View.enableNextButton()
   }
 }
 
@@ -123,60 +123,18 @@ const loadUserState = function () {
   }
 }
 
-const enableNextButton = function () {
-  if (!isNextButtonEnabled()) {
-    nextButton.classList.remove('disabled')
-    nextButton.classList.add('primary')
-  }
-}
-
-const disableNextButton = function () {
-  if (isNextButtonEnabled()) {
-    nextButton.classList.remove('primary')
-    nextButton.classList.add('disabled')
-  }
-}
-
-const enablePreviousButton = function () {
-  if (!isPreviousButtonEnabled()) {
-    previousButton.classList.remove('disabled')
-    previousButton.classList.add('grey')
-  }
-}
-
-const disablePreviousButton = function () {
-  if (isPreviousButtonEnabled()) {
-    previousButton.classList.remove('green')
-    previousButton.classList.add('disabled')
-  }
-}
-
-const isNextButtonEnabled = function () {
-  return !nextButton.classList.contains('disabled')
-}
-
-const isPreviousButtonEnabled = function () {
-  return !previousButton.classList.contains('disabled')
-}
-
 const updateNavigationButtonsState = function () {
   if (userState.currentImageRatingIndex === imageRatings.length - 1 || !didAnswerAllQuestions()) {
-    disableNextButton()
+    View.disableNextButton()
   } else {
-    enableNextButton()
+    View.enableNextButton()
   }
 
   if (userState.currentImageRatingIndex > 0) {
-    enablePreviousButton()
+    View.enablePreviousButton()
   } else {
-    disablePreviousButton()
+    View.disablePreviousButton()
   }
-}
-
-const clearRatingButtons = function (question) {
-  document.querySelectorAll('.button.rating.' + question).forEach(ratingButton => {
-    ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
-  })
 }
 
 const loadRatingButtons = function () {
@@ -184,7 +142,7 @@ const loadRatingButtons = function () {
 
   // Erase all rating button selections
   questions.forEach(question => {
-    clearRatingButtons(question)
+    View.View.clearRatingButtons(question)
   })
 
   // Load user state rating button selections
@@ -236,10 +194,6 @@ const previous = function () {
 // Image
 const image = document.getElementById('image')
 
-// Buttons
-const nextButton = document.getElementById('button-next')
-const previousButton = document.getElementById('button-previous')
-
 /// Model
 let imageRatings
 let savePath
@@ -290,7 +244,7 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
   ratingButton.addEventListener('click', event => {
     // Remove color from all rating buttons for the answered question
-    clearRatingButtons(question)
+    View.View.clearRatingButtons(question)
     // Color the clicked button
     View.setRatingButton(question, rating)
     // Store the rating in the user state
@@ -299,15 +253,15 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
 })
 
 // Next button
-nextButton.addEventListener('click', event => {
-  if (isNextButtonEnabled()) {
+View.nextButton.addEventListener('click', event => {
+  if (View.isNextButtonEnabled()) {
     next()
   }
 })
 
 // Previous button
-previousButton.addEventListener('click', event => {
-  if (isPreviousButtonEnabled()) {
+View.previousButton.addEventListener('click', event => {
+  if (View.isPreviousButtonEnabled()) {
     previous()
   }
 })
@@ -326,7 +280,7 @@ window.addEventListener('unload', event => {
 // Key bindings for rating buttons
 Mousetrap.bind('1', event => {
   // Remove color from all rating buttons for the answered question
-  clearRatingButtons(getCurrentQuestion(), Rating.R1)
+  View.View.clearRatingButtons(getCurrentQuestion(), Rating.R1)
   // Color the clicked button
   View.setRatingButton(getCurrentQuestion(), Rating.R1)
   // Store the rating in the user state
@@ -334,7 +288,7 @@ Mousetrap.bind('1', event => {
 })
 Mousetrap.bind('2', event => {
   // Remove color from all rating buttons for the answered question
-  clearRatingButtons(getCurrentQuestion(), Rating.R2)
+  View.clearRatingButtons(getCurrentQuestion(), Rating.R2)
   // Color the clicked button
   View.setRatingButton(getCurrentQuestion(), Rating.R2)
   // Store the rating in the user state
@@ -342,7 +296,7 @@ Mousetrap.bind('2', event => {
 })
 Mousetrap.bind('3', event => {
   // Remove color from all rating buttons for the answered question
-  clearRatingButtons(getCurrentQuestion(), Rating.R3)
+  View.clearRatingButtons(getCurrentQuestion(), Rating.R3)
   // Color the clicked button
   View.setRatingButton(getCurrentQuestion(), Rating.R3)
   // Store the rating in the user state
@@ -350,7 +304,7 @@ Mousetrap.bind('3', event => {
 })
 Mousetrap.bind('4', event => {
   // Remove color from all rating buttons for the answered question
-  clearRatingButtons(getCurrentQuestion(), Rating.R4)
+  View.clearRatingButtons(getCurrentQuestion(), Rating.R4)
   // Color the clicked button
   View.setRatingButton(getCurrentQuestion(), Rating.R4)
   // Store the rating in the user state
@@ -358,7 +312,7 @@ Mousetrap.bind('4', event => {
 })
 Mousetrap.bind('5', event => {
   // Remove color from all rating buttons for the answered question
-  clearRatingButtons(getCurrentQuestion(), Rating.R5)
+  View.clearRatingButtons(getCurrentQuestion(), Rating.R5)
   // Color the clicked button
   View.setRatingButton(getCurrentQuestion(), Rating.R5)
   // Store the rating in the user state
@@ -366,12 +320,12 @@ Mousetrap.bind('5', event => {
 })
 
 Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
-  if (isNextButtonEnabled()) {
+  if (View.isNextButtonEnabled()) {
     next()
   }
 })
 Mousetrap.bind(['left', 'p'], event => {
-  if (isPreviousButtonEnabled()) {
+  if (View.isPreviousButtonEnabled()) {
     previous()
   }
 })

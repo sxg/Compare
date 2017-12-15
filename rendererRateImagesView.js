@@ -2,6 +2,10 @@
 // Local dependencies
 const Rating = require('./rating.js')
 
+// Buttons
+const nextButton = document.getElementById('button-next')
+const previousButton = document.getElementById('button-previous')
+
 // Update the color of the rating button
 const setRatingButton = function (question, rating) {
   if (question && rating) {
@@ -28,5 +32,61 @@ const setRatingButton = function (question, rating) {
   }
 }
 
-/// Exports
-module.exports = { setRatingButton: setRatingButton }
+// Clear rating button selection
+const clearRatingButtons = function (question) {
+  document.querySelectorAll('.button.rating.' + question).forEach(ratingButton => {
+    ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
+  })
+}
+
+// Enable/Disable buttons
+const enableNextButton = function () {
+  if (!isNextButtonEnabled()) {
+    nextButton.classList.remove('disabled')
+    nextButton.classList.add('primary')
+  }
+}
+
+const disableNextButton = function () {
+  if (isNextButtonEnabled()) {
+    nextButton.classList.remove('primary')
+    nextButton.classList.add('disabled')
+  }
+}
+
+const enablePreviousButton = function () {
+  if (!isPreviousButtonEnabled()) {
+    previousButton.classList.remove('disabled')
+    previousButton.classList.add('grey')
+  }
+}
+
+const disablePreviousButton = function () {
+  if (isPreviousButtonEnabled()) {
+    previousButton.classList.remove('green')
+    previousButton.classList.add('disabled')
+  }
+}
+
+// Button status
+const isNextButtonEnabled = function () {
+  return !nextButton.classList.contains('disabled')
+}
+
+const isPreviousButtonEnabled = function () {
+  return !previousButton.classList.contains('disabled')
+}
+
+// Exports
+module.exports = {
+  nextButton: nextButton,
+  previousButton: previousButton,
+  setRatingButton: setRatingButton,
+  clearRatingButtons: clearRatingButtons,
+  enableNextButton: enableNextButton,
+  disableNextButton: disableNextButton,
+  enablePreviousButton: enablePreviousButton,
+  disablePreviousButton: disablePreviousButton,
+  isNextButtonEnabled: isNextButtonEnabled,
+  isPreviousButtonEnabled: isPreviousButtonEnabled
+}
