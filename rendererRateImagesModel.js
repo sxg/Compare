@@ -12,6 +12,7 @@ const sanitize = require('sanitize')
 // Local dependencies
 const Question = require('./question.js')
 
+// Rate an image
 const rateImage = function (userState, question, rating) {
   // Set the rating in the user state
   const questionRatingKey = question + 'Rating'
@@ -19,6 +20,7 @@ const rateImage = function (userState, question, rating) {
   return userState
 }
 
+// Get the enum for the current question
 const getCurrentQuestion = function (userState) {
   if (userState.q1Rating === null) {
     return Question.Q1
@@ -33,6 +35,7 @@ const getCurrentQuestion = function (userState) {
   }
 }
 
+// Bool value of whether all questions have been answered
 const didAnswerAllQuestions = function (userState) {
   if (userState.q1Rating &&
   userState.q2Rating &&
@@ -45,6 +48,7 @@ const didAnswerAllQuestions = function (userState) {
   }
 }
 
+// Save the image ratings to a CSV file
 const saveImageRatings = function (savePath, name, imageRatings) {
   const filePath = path.join(savePath, getFileName(name, '.csv'))
   const fields = ['imagePath', 'imageName', 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating']
@@ -73,6 +77,7 @@ const saveImageRatings = function (savePath, name, imageRatings) {
   })
 }
 
+// Load the iamge ratings from a CSV file or create a new image ratings object
 const loadImageRatings = function (imageRatings, imagesPath) {
   const fileName = getFileName('.json')
   const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
@@ -101,28 +106,34 @@ const loadImageRatings = function (imageRatings, imagesPath) {
       }
     })
   }
+  }
 }
 
+// Bool value of whether there is another image to rate
 const hasNext = function (userState, imageRatings) {
   return (userState.currentImageRatingIndex >= 0 && userState.currentImageRatingIndex < imageRatings.length)
 }
 
+// Move to the next image
 const next = function (userState, imageRatings) {
   imageRatings = storeUserState(userState, imageRatings)
   userState.currentImageRatingIndex++
   return loadUserState(userState, imageRatings)
 }
 
+// Bool value of whether there was a previous image to rate
 const hasPrevious = function (userState, imageRatings) {
   return (userState.currentImageRatingIndex >= 1 && userState.currentImageRatingIndex < imageRatings.length)
 }
 
+// Move to the previous image
 const previous = function (userState, imageRatings) {
   imageRatings = storeUserState(userState, imageRatings)
   userState.currentImageRatingIndex--
   return loadUserState(userState, imageRatings)
 }
 
+// Get the image path of the current image
 const getImagePath = function (userState, imageRatings) {
   return imageRatings[userState.currentImageRatingIndex].imagePath
 }
