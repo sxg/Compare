@@ -49,7 +49,7 @@ const didAnswerAllQuestions = function (userState) {
 }
 
 // Save the image ratings to a CSV file
-const saveImageRatings = function (savePath, name, imageRatings) {
+const save = function (savePath, name, imageRatings) {
   const filePath = path.join(savePath, getFileName(name, '.csv'))
   const fields = ['imagePath', 'imageName', 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating']
   const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
@@ -78,7 +78,7 @@ const saveImageRatings = function (savePath, name, imageRatings) {
 }
 
 // Load the iamge ratings from a CSV file or create a new image ratings object
-const loadImageRatings = function (imageRatings, imagesPath) {
+const load = function (imageRatings, imagesPath) {
   const fileName = getFileName('.json')
   const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
   if (fs.existsSync(filePath)) {
@@ -148,8 +148,8 @@ module.exports = {
   previous: previous,
   hasPrevious: hasPrevious,
   getImagePath: getImagePath,
-  saveImageRatings: saveImageRatings,
-  loadImageRatings: loadImageRatings
+  save: save,
+  load: load
 }
 
 /// Private Helpers

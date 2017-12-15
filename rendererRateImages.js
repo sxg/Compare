@@ -18,11 +18,13 @@ const Rating = require('./rating.js')
 
 // Initialization
 ipcRenderer.on('Message-Setup', (event, data) => {
-  // Set the user's name and initialize the image ratings
+  // Set the user's name and CSV save path and initialize the model
   name = data.name
   savePath = data.savePath
-  Model.loadImageRatings(data.imagesPath)
-  Model.loadUserState()
+  const loadedData = Model.load(data.imagesPath)
+  userState = loadedData.userState
+  imageRatings = loadedData.imageRatings
+
   loadRatingButtons()
 
   // Load the first image
@@ -72,7 +74,7 @@ const next = function () {
     }
   } else {
     // Save the image ratings to a CSV file
-    Model.saveImageRatings(savePath, name, imageRatings)
+    Model.save(savePath, name, imageRatings)
 
     // Load the done screen
     remote.getCurrentWindow().loadURL(url.format({
