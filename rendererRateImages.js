@@ -12,6 +12,10 @@ const fs = require('fs')
 const path = require('path')
 const url = require('url')
 
+// Local dependencies
+const Question = require('./question.js')
+const Rating = require('./rating.js')
+
 /// Helpers
 const rateImage = function (question, rating) {
   // Set the rating in the user state
@@ -272,8 +276,6 @@ const userState = {
   q4Rating: null,
   q5Rating: null
 }
-const Question = Object.freeze({ Q1: 'q1', Q2: 'q2', Q3: 'q3', Q4: 'q4', Q5: 'q5' })
-const Rating = Object.freeze({ R1: 'r1', R2: 'r2', R3: 'r3', R4: 'r4', R5: 'r5' })
 
 const getFileName = function (extension) {
   return 'ImageRatings-' + sanitize(name) + extension
