@@ -154,4 +154,3 @@ const loadUserState = function (userState, imageRatings) {
 
   return userState
 }
-
