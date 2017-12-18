@@ -128,6 +128,8 @@ const previous = function () {
   // Check if the previous button should be enabled
   if (Model.hasPrevious(userState, imageRatings)) {
     View.enablePreviousButton()
+  } else {
+    View.disablePreviousButton()
   }
 }
 
