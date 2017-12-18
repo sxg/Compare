@@ -10,9 +10,9 @@ const previousButton = document.getElementById('button-previous')
 const image = document.getElementById('image')
 
 // Update the color of the rating button
-const setRatingButton = function (question, rating) {
+const setRating = function (question, rating) {
   // Clear currently selected rating button (if one is selected)
-  clearRatingButtons(question)
+  clearRatings(question)
 
   // Get the color for the rating button
   if (question && rating) {
@@ -40,7 +40,7 @@ const setRatingButton = function (question, rating) {
 }
 
 // Clear rating button selection
-const clearRatingButtons = function (question) {
+const clearRatings = function (question) {
   document.querySelectorAll('.button.rating.' + question).forEach(ratingButton => {
     ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
   })
@@ -93,8 +93,8 @@ const isPreviousButtonEnabled = function () {
 module.exports = {
   nextButton: nextButton,
   previousButton: previousButton,
-  setRatingButton: setRatingButton,
-  clearRatingButtons: clearRatingButtons,
+  setRating: setRating,
+  clearRatings: clearRatings,
   setImage: setImage,
   enableNextButton: enableNextButton,
   disableNextButton: disableNextButton,

@@ -36,7 +36,7 @@ const selectRating = function (userState, question, rating) {
   userState = Model.rateImage(userState, question, rating)
 
   // Select the rating button
-  View.setRatingButton(question, rating)
+  View.setRating(question, rating)
 
   // Check if the next button should be enabled
   if (Model.didAnswerAllQuestions(userState)) {
@@ -62,13 +62,13 @@ const selectPrevious = function () {
 const loadRatingButtons = function () {
   // Erase all rating button selections
   Question.All.forEach(question => {
-    View.clearRatingButtons(question)
+    View.clearRatings(question)
   })
 
   // Load user state rating button selections
   Question.All.forEach(question => {
     const questionRatingKey = question + 'Rating'
-    View.setRatingButton(question, userState[questionRatingKey])
+    View.setRating(question, userState[questionRatingKey])
   })
 }
 
