@@ -68,7 +68,7 @@ const selectPrevious = function () {
 const loadRatingButtons = function () {
   // Erase all rating button selections
   Question.All.forEach(question => {
-    View.clearRatings(question)
+    View.clearChoices(question)
   })
 
   // Load user state rating button selections
