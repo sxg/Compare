@@ -53,6 +53,7 @@ const selectNext = function () {
   }
 }
 
+// Go to the previous image
 const selectPrevious = function () {
   if (View.isPreviousButtonEnabled()) {
     previous()
@@ -96,6 +97,7 @@ const next = function () {
     View.disableNextButton()
   }
 
+  // If the user is done rating all images
   if (Model.isDone()) {
     // Save the image ratings to a CSV file
     Model.save(savePath, name, imageRatings)
