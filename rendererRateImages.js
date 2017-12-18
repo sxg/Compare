@@ -76,6 +76,9 @@ const loadRatingButtons = function () {
 
 // Move to the next question
 const next = function () {
+  // Update the model
+  userState = Model.next(userState, imageRatings)
+
   // If the user is done rating all images
   if (Model.isDone(imageRatings)) {
     // Save the image ratings to a CSV file
@@ -88,8 +91,6 @@ const next = function () {
       slashes: true
     }))
   } else {
-    // Increment the model
-    userState = Model.next(userState, imageRatings)
     loadRatingButtons()
 
     // Set the image
@@ -113,7 +114,7 @@ const next = function () {
 
 // Move to the previous question
 const previous = function () {
-  // Decrement the model
+  // Update the model
   userState = Model.previous(userState, imageRatings)
   loadRatingButtons()
 
