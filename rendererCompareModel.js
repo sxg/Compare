@@ -14,7 +14,7 @@ const Question = require('./question.js')
 
 // Choose an image
 const chooseImage = function (userState, question, choice) {
-  // Set the rating in the user state
+  // Set the choice in the user state
   const questionChoiceKey = question + 'Choice'
   userState[questionChoiceKey] = choice
   return userState
@@ -120,13 +120,14 @@ const load = function (name, imagesPath) {
     }))
 
     // Initialize the image choices
-    imageChoices = _.map(pairedFileNames, fileName => {
-      const filePath = path.join(imagesPath, fileName)
+    imageChoices = _.map(pairedFileNames, pair => {
+      const filePathA = path.join(imagesPath, pair[0])
+      const filePathB = path.join(imagesPath, pair[1])
       return {
-        imageAPath: filePath,
-        imageBPath: filePath,
-        imageAName: path.basename(filePath, '.png'),
-        imageBName: path.basename(filePath, '.png'),
+        imageAPath: filePathA,
+        imageBPath: filePathB,
+        imageAName: path.basename(filePathA, '.png'),
+        imageBName: path.basename(filePathB, '.png'),
         q1Choice: null,
         q2Choice: null,
         q3Choice: null,
@@ -210,9 +211,9 @@ const createUserState = function () {
   }
 }
 
-// Save the user state in the image ratings
+// Save the user state in the image choices
 const storeUserState = function (userState, imageChoices) {
-  // Copy keys in the user state to the current image rating object
+  // Copy keys in the user state to the current image choices object
   const i = userState.currentImageChoiceIndex
   if (i >= 0 && i < imageChoices.length) {
     Object.keys(userState).forEach(userStateKey => {
@@ -225,9 +226,9 @@ const storeUserState = function (userState, imageChoices) {
   return imageChoices
 }
 
-// Load the user state from the image ratings
+// Load the user state from the image choices
 const loadUserState = function (userState, imageChoices) {
-  // Load the user state from the image rating
+  // Load the user state from the image choices object
   const i = userState.currentImageChoiceIndex
   if (i >= 0 && i < imageChoices.length) {
     Object.keys(imageChoices[i]).forEach(imageChoiceKey => {
