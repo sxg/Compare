@@ -76,27 +76,6 @@ const loadRatingButtons = function () {
 
 // Move to the next question
 const next = function () {
-  // Increment the model
-  userState = Model.next(userState, imageRatings)
-  loadRatingButtons()
-
-  // Set the image
-  View.setImage(Model.getImagePath(userState, imageRatings))
-
-  // Check if the previous button should be enabled
-  if (Model.hasPrevious(userState, imageRatings)) {
-    View.enablePreviousButton()
-  } else {
-    View.disablePreviousButton()
-  }
-
-  // Check if the next button should be enabled
-  if (Model.hasNext(userState, imageRatings) && Model.didAnswerAllQuestions(userState)) {
-    View.enableNextButton()
-  } else {
-    View.disableNextButton()
-  }
-
   // If the user is done rating all images
   if (Model.isDone()) {
     // Save the image ratings to a CSV file
@@ -108,6 +87,27 @@ const next = function () {
       protocol: 'file:',
       slashes: true
     }))
+  } else {
+    // Increment the model
+    userState = Model.next(userState, imageRatings)
+    loadRatingButtons()
+
+    // Set the image
+    View.setImage(Model.getImagePath(userState, imageRatings))
+
+    // Check if the previous button should be enabled
+    if (Model.hasPrevious(userState, imageRatings)) {
+      View.enablePreviousButton()
+    } else {
+      View.disablePreviousButton()
+    }
+
+    // Check if the next button should be enabled
+    if (Model.hasNext(userState, imageRatings) && Model.didAnswerAllQuestions(userState)) {
+      View.enableNextButton()
+    } else {
+      View.disableNextButton()
+    }
   }
 }
 
