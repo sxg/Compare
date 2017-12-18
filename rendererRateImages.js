@@ -38,7 +38,7 @@ const rateImage = function (userState, question, rating) {
   userState = Model.rateImage(userState, question, rating)
 
   // Check if the next button should be enabled
-  if (Model.didAnswerAllQuestions()) {
+  if (Model.didAnswerAllQuestions(userState)) {
     View.enableNextButton()
   }
 }
@@ -60,14 +60,14 @@ const loadRatingButtons = function () {
 // Move to the next question
 const next = function () {
   // Increment the model
-  userState = Model.next()
+  userState = Model.next(userState, imageRatings)
   loadRatingButtons()
 
   // Get the next image if there is one
-  if (Model.hasNext()) {
-    View.setImage(imageRatings[userState.currentImageRatingIndex].imagePath)
+  if (Model.hasNext(userState, imageRatings)) {
+    View.setImage(Model.getImagePath(userState, imageRatings))
     View.enableNextButton()
-    if (Model.hasPrevious()) {
+    if (Model.hasPrevious(userState, imageRatings)) {
       View.enablePreviousButton()
     } else {
       View.disablePreviousButton()
@@ -88,14 +88,14 @@ const next = function () {
 // Move to the previous question
 const previous = function () {
   // Decrement the model
-  userState = Model.previous()
+  userState = Model.previous(userState, imageRatings)
   loadRatingButtons()
 
   // Get the previous image
-  if (Model.hasPrevious()) {
-    View.setImage(imageRatings[userState.currentImageRatingIndex].imagePath)
+  if (Model.hasPrevious(userState, imageRatings)) {
+    View.setImage(Model.getImagePath(userState, imageRatings))
     View.enablePreviousButton()
-    if (Model.hasNext()) {
+    if (Model.hasNext(userState, imageRatings)) {
       View.enableNextButton()
     } else {
       View.disableNextButton()
