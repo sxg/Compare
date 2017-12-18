@@ -14,6 +14,12 @@ const Model = require('./rendererRateImagesModel.js')
 const Question = require('./question.js')
 const Rating = require('./rating.js')
 
+/// Model
+let imageRatings
+let savePath
+let name
+let userState
+
 // Initialization
 ipcRenderer.on('Message-Setup', (event, data) => {
   // Set the user's name and CSV save path and initialize the model
@@ -134,13 +140,6 @@ const previous = function () {
   }
 }
 
-/// Model
-let imageRatings
-let savePath
-let name
-let userState
-
-/// UI Actions
 // Rating buttons
 document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const question = _.intersection(ratingButton.classList, [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5])[0]
