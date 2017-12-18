@@ -33,9 +33,15 @@ ipcRenderer.on('Message-Setup', (event, data) => {
 
 /// Controller
 // Rate the current image
-const rateImage = function (userState, question, rating) {
+const selectRating = function (userState, question, rating) {
+  // Clear current rating selections
+  View.clearRatingButtons(question)
+
   // Set the rating in the model
   userState = Model.rateImage(userState, question, rating)
+
+  // Select the rating button
+  View.setRatingButton(question, rating)
 
   // Check if the next button should be enabled
   if (Model.didAnswerAllQuestions(userState)) {
@@ -115,12 +121,7 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
   const question = _.intersection(ratingButton.classList, [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5])[0]
   const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
   ratingButton.addEventListener('click', event => {
-    // Remove color from all rating buttons for the answered question
-    View.clearRatingButtons(question)
-    // Color the clicked button
-    View.setRatingButton(question, rating)
-    // Store the rating in the user state
-    rateImage(question, rating)
+    selectRating(userState, question, rating)
   })
 })
 
@@ -152,44 +153,24 @@ window.addEventListener('unload', event => {
 
 // Key bindings for rating buttons
 Mousetrap.bind('1', event => {
-  // Remove color from all rating buttons for the answered question
-  View.clearRatingButtons(Model.getCurrentQuestion(), Rating.R1)
-  // Color the clicked button
-  View.setRatingButton(Model.getCurrentQuestion(), Rating.R1)
-  // Store the rating in the user state
-  Model.rateImage(Model.getCurrentQuestion(), Rating.R1)
+  // Select the rating button
+  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R1)
 })
 Mousetrap.bind('2', event => {
-  // Remove color from all rating buttons for the answered question
-  View.clearRatingButtons(Model.getCurrentQuestion(), Rating.R2)
-  // Color the clicked button
-  View.setRatingButton(Model.getCurrentQuestion(), Rating.R2)
-  // Store the rating in the user state
-  Model.rateImage(Model.getCurrentQuestion(), Rating.R2)
+  // Select the rating button
+  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R2)
 })
 Mousetrap.bind('3', event => {
-  // Remove color from all rating buttons for the answered question
-  View.clearRatingButtons(Model.getCurrentQuestion(), Rating.R3)
-  // Color the clicked button
-  View.setRatingButton(Model.getCurrentQuestion(), Rating.R3)
-  // Store the rating in the user state
-  Model.rateImage(Model.getCurrentQuestion(), Rating.R3)
+  // Select the rating button
+  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R3)
 })
 Mousetrap.bind('4', event => {
-  // Remove color from all rating buttons for the answered question
-  View.clearRatingButtons(Model.getCurrentQuestion(), Rating.R4)
-  // Color the clicked button
-  View.setRatingButton(Model.getCurrentQuestion(), Rating.R4)
-  // Store the rating in the user state
-  Model.rateImage(Model.getCurrentQuestion(), Rating.R4)
+  // Select the rating button
+  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R4)
 })
 Mousetrap.bind('5', event => {
-  // Remove color from all rating buttons for the answered question
-  View.clearRatingButtons(Model.getCurrentQuestion(), Rating.R5)
-  // Color the clicked button
-  View.setRatingButton(Model.getCurrentQuestion(), Rating.R5)
-  // Store the rating in the user state
-  Model.rateImage(Model.getCurrentQuestion(), Rating.R5)
+  // Select the rating button
+  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R5)
 })
 
 Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
