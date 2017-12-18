@@ -151,34 +151,41 @@ window.addEventListener('unload', event => {
   })
 })
 
-// Key bindings for rating buttons
+/// Key bindings
+// Rate current question as 1
 Mousetrap.bind('1', event => {
   // Select the rating button
   selectRating(userState, Model.getCurrentQuestion(userState), Rating.R1)
 })
+// Rate current question as 2
 Mousetrap.bind('2', event => {
   // Select the rating button
   selectRating(userState, Model.getCurrentQuestion(userState), Rating.R2)
 })
+// Rate current question as 3
 Mousetrap.bind('3', event => {
   // Select the rating button
   selectRating(userState, Model.getCurrentQuestion(userState), Rating.R3)
 })
+// Rate current question as 4
 Mousetrap.bind('4', event => {
   // Select the rating button
   selectRating(userState, Model.getCurrentQuestion(userState), Rating.R4)
 })
+// Rate current question as 5
 Mousetrap.bind('5', event => {
   // Select the rating button
   selectRating(userState, Model.getCurrentQuestion(userState), Rating.R5)
 })
 
-Mousetrap.bind(['enter', 'space', 'right', 'b', 'n'], event => {
+// Go to next image
+Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
   if (View.isNextButtonEnabled()) {
     next()
   }
 })
-Mousetrap.bind(['left', 'p'], event => {
+// Go to previous image
+Mousetrap.bind(['left', 'b', 'p'], event => {
   if (View.isPreviousButtonEnabled()) {
     previous()
   }
