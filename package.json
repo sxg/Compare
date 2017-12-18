@@ -1,19 +1,21 @@
 {
-  "name": "5-stars",
-  "productName": "5 Stars",
+  "name": "compare",
+  "productName": "Compare",
   "version": "1.0.0",
-  "description": "An Electron app to rate images on a scale of 1–5",
+  "description": "An Electron app to perform a two-alternative forced choice experiment",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/sxg/5-Stars",
+  "repository": "https://github.com/sxg/Compare",
   "keywords": [
     "Electron",
     "MRI",
     "medical-imaging",
     "quality",
-    "rating"
+    "compare",
+    "two-alternative forced choice",
+    "forced choice"
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
