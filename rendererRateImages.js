@@ -164,13 +164,7 @@ View.previousButton.addEventListener('click', event => {
 // On quitting the app
 window.addEventListener('unload', event => {
   // Save the image ratings to a JSON file
-  const fileName = Model.getFileName('.json')
-  const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
-  fs.writeFile(filePath, JSON.stringify(imageRatings), 'utf8', err => {
-    if (err) {
-      console.error(new Error(err))
-    }
-  })
+  Model.saveProgress(savePath, name, imageRatings)
 })
 
 /// Key bindings

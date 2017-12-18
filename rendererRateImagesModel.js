@@ -77,6 +77,17 @@ const save = function (savePath, name, imageRatings) {
   })
 }
 
+// Save progress to a JSON file
+const saveProgress = function (savePath, name, imageRatings) {
+  const fileName = getFileName(name, '.json')
+  const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
+  fs.writeFile(filePath, JSON.stringify(imageRatings), 'utf8', err => {
+    if (err) {
+      console.error(new Error(err))
+    }
+  })
+}
+
 // Load the image ratings from a CSV file or create a new image ratings object
 const load = function (name, imagesPath) {
   const fileName = getFileName(name, '.json')
@@ -160,6 +171,7 @@ module.exports = {
   isDone: isDone,
   getImagePath: getImagePath,
   save: save,
+  saveProgress: saveProgress,
   load: load
 }
 
