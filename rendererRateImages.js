@@ -77,7 +77,7 @@ const loadRatingButtons = function () {
 // Move to the next question
 const next = function () {
   // If the user is done rating all images
-  if (Model.isDone()) {
+  if (Model.isDone(imageRatings)) {
     // Save the image ratings to a CSV file
     Model.save(savePath, name, imageRatings)
 
