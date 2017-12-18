@@ -24,7 +24,7 @@ function createWindow () {
     // Load rating window
     let rateWindow = new BrowserWindow({show: false})
     rateWindow.loadURL(url.format({
-      pathname: path.join(__dirname, 'rateImages.html'),
+      pathname: path.join(__dirname, 'compareImages.html'),
       protocol: 'file:',
       slashes: true
     }))
