@@ -77,10 +77,11 @@ const save = function (savePath, name, imageRatings) {
   })
 }
 
-// Load the iamge ratings from a CSV file or create a new image ratings object
-const load = function (imageRatings, imagesPath) {
+// Load the image ratings from a CSV file or create a new image ratings object
+const load = function (imagesPath) {
   const fileName = getFileName('.json')
   const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
+  let imageRatings
   if (fs.existsSync(filePath)) {
     imageRatings = JSON.parse(fs.readFileSync(filePath, 'utf8'))
   } else {
@@ -106,6 +107,10 @@ const load = function (imageRatings, imagesPath) {
       }
     })
   }
+
+  return {
+    userState: createUserState(),
+    imageRatings: imageRatings
   }
 }
 
@@ -156,6 +161,18 @@ module.exports = {
 // Create a file name with a given extension
 const getFileName = function (name, extension) {
   return 'ImageRatings-' + sanitize(name) + extension
+}
+
+// Create a new user state
+const createUserState = function () {
+  return {
+    currentImageRatingIndex: -1,
+    q1Rating: null,
+    q2Rating: null,
+    q3Rating: null,
+    q4Rating: null,
+    q5Rating: null
+  }
 }
 
 // Save the user state in the image ratings

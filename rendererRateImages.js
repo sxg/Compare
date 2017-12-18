@@ -107,14 +107,7 @@ const previous = function () {
 let imageRatings
 let savePath
 let name
-let userState = {
-  currentImageRatingIndex: -1,
-  q1Rating: null,
-  q2Rating: null,
-  q3Rating: null,
-  q4Rating: null,
-  q5Rating: null
-}
+let userState
 
 /// UI Actions
 // Rating buttons
