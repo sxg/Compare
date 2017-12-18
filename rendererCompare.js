@@ -98,7 +98,8 @@ const next = function () {
     loadRatingButtons()
 
     // Set the image
-    View.setImage(Model.getImagePath(userState, imageChoices))
+    View.setImageA(Model.getImageAPath(userState, imageChoices))
+    View.setImageB(Model.getImageBPath(userState, imageChoices))
 
     // Check if the previous button should be enabled
     if (Model.hasPrevious(userState, imageChoices)) {

@@ -7,12 +7,13 @@ const nextButton = document.getElementById('button-next')
 const previousButton = document.getElementById('button-previous')
 
 // Image
-const image = document.getElementById('image')
+const imageA = document.getElementById('image-a')
+const imageB = document.getElementById('image-b')
 
 // Update the color of the choice button
 const setChoice = function (question, choice) {
   // Clear currently selected choice button (if one is selected)
-  clearRatings(question)
+  clearChoices(question)
 
   // Get the color for the choice button
   if (question && choice) {
@@ -30,16 +31,21 @@ const setChoice = function (question, choice) {
   }
 }
 
-// Clear rating button selection
-const clearRatings = function (question) {
-  document.querySelectorAll('.button.rating.' + question).forEach(ratingButton => {
-    ratingButton.classList.remove('red', 'orange', 'yellow', 'olive', 'green')
+// Clear choice button selection
+const clearChoices = function (question) {
+  document.querySelectorAll('.button.choice.' + question).forEach(choiceButton => {
+    choiceButton.classList.remove('blue', 'green')
   })
 }
 
-// Update image
-const setImage = function (imagePath) {
-  image.src = imagePath
+// Update image A
+const setImageA = function (imagePath) {
+  imageA.src = imagePath
+}
+
+// Update image B
+const setImageB = function (imagePath) {
+  imageB.src = imagePath
 }
 
 // Enable/Disable buttons
@@ -85,8 +91,9 @@ module.exports = {
   nextButton: nextButton,
   previousButton: previousButton,
   setChoice: setChoice,
-  clearRatings: clearRatings,
-  setImage: setImage,
+  clearChoices: clearChoices,
+  setImageA: setImageA,
+  setImageB: setImageB,
   enableNextButton: enableNextButton,
   disableNextButton: disableNextButton,
   enablePreviousButton: enablePreviousButton,

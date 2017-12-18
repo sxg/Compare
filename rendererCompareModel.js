@@ -172,9 +172,14 @@ const previous = function (userState, imageChoices) {
   return loadUserState(userState, imageChoices)
 }
 
-// Get the image path of the current image
-const getImagePath = function (userState, imageChoices) {
-  return imageChoices[userState.currentImageChoiceIndex].imagePath
+// Get the image path of image A
+const getImageAPath = function (userState, imageChoices) {
+  return imageChoices[userState.currentImageChoiceIndex].imageAPath
+}
+
+// Get the image path of image B
+const getImageBPath = function (userState, imageChoices) {
+  return imageChoices[userState.currentImageChoiceIndex].imageBPath
 }
 
 // Exports
@@ -187,7 +192,8 @@ module.exports = {
   previous: previous,
   hasPrevious: hasPrevious,
   isDone: isDone,
-  getImagePath: getImagePath,
+  getImageAPath: getImageAPath,
+  getImageBPath: getImageBPath,
   save: save,
   saveProgress: saveProgress,
   load: load
