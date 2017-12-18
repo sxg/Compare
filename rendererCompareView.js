@@ -18,20 +18,11 @@ const setChoice = function (question, choice) {
   if (question && choice) {
     let color
     switch (choice) {
-      case Choice.R1:
+      case Choice.A:
         color = 'red'
         break
-      case Choice.R2:
+      case Choice.B:
         color = 'orange'
-        break
-      case Choice.R3:
-        color = 'yellow'
-        break
-      case Choice.R4:
-        color = 'olive'
-        break
-      case Choice.R5:
-        color = 'green'
         break
     }
     const button = document.querySelector('.button.choice.' + question + '.' + choice)
