@@ -114,6 +114,11 @@ const load = function (imagesPath) {
   }
 }
 
+// Bool value of whether the user is done rating all images
+const isDone = function (imageRatings) {
+  _.every(imageRatings, ['q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating'])
+}
+
 // Bool value of whether there is another image to rate
 const hasNext = function (userState, imageRatings) {
   return (userState.currentImageRatingIndex >= 0 && userState.currentImageRatingIndex < imageRatings.length)
@@ -152,6 +157,7 @@ module.exports = {
   hasNext: hasNext,
   previous: previous,
   hasPrevious: hasPrevious,
+  isDone: isDone,
   getImagePath: getImagePath,
   save: save,
   load: load
