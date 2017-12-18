@@ -68,7 +68,7 @@ const save = function (savePath, name, imageRatings) {
       console.error(new Error(err))
     } else {
       // Delete the JSON file
-      const jsonFileName = getFileName('.json')
+      const jsonFileName = getFileName(name, '.json')
       const jsonFilePath = path.join(app.getPath('appData'), app.getName(), jsonFileName)
       if (fs.existsSync(jsonFilePath)) {
         fs.unlinkSync(jsonFilePath)
@@ -78,8 +78,8 @@ const save = function (savePath, name, imageRatings) {
 }
 
 // Load the image ratings from a CSV file or create a new image ratings object
-const load = function (imagesPath) {
-  const fileName = getFileName('.json')
+const load = function (name, imagesPath) {
+  const fileName = getFileName(name, '.json')
   const filePath = path.join(app.getPath('appData'), app.getName(), fileName)
   let imageRatings
   if (fs.existsSync(filePath)) {

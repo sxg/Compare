@@ -21,7 +21,7 @@ ipcRenderer.on('Message-Setup', (event, data) => {
   // Set the user's name and CSV save path and initialize the model
   name = data.name
   savePath = data.savePath
-  const loadedData = Model.load(data.imagesPath)
+  const loadedData = Model.load(name, data.imagesPath)
   userState = loadedData.userState
   imageRatings = loadedData.imageRatings
 
