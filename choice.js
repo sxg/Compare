@@ -1,6 +1,6 @@
 const Choice = {
-  A: 'a',
-  B: 'b'
+  A: 'cA',
+  B: 'cB'
 }
 
 // Exports
