@@ -34,9 +34,6 @@ ipcRenderer.on('Message-Setup', (event, data) => {
 /// Controller
 // Rate the current image
 const selectRating = function (userState, question, rating) {
-  // Clear current rating selections
-  View.clearRatingButtons(question)
-
   // Set the rating in the model
   userState = Model.rateImage(userState, question, rating)
 

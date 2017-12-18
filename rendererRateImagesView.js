@@ -11,6 +11,10 @@ const image = document.getElementById('image')
 
 // Update the color of the rating button
 const setRatingButton = function (question, rating) {
+  // Clear currently selected rating button (if one is selected)
+  clearRatingButtons(question)
+
+  // Get the color for the rating button
   if (question && rating) {
     let color
     switch (rating) {
