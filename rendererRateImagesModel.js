@@ -7,7 +7,7 @@ const path = require('path')
 const fs = require('fs')
 const json2csv = require('json2csv')
 const _ = require('lodash')
-const sanitize = require('sanitize')
+const sanitize = require('sanitize-filename')
 
 // Local dependencies
 const Question = require('./question.js')
