@@ -93,7 +93,7 @@ const isPreviousButtonEnabled = function () {
 module.exports = {
   nextButton: nextButton,
   previousButton: previousButton,
-  setRating: setRating,
+  setChoice: setChoice,
   clearRatings: clearRatings,
   setImage: setImage,
   enableNextButton: enableNextButton,

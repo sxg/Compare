@@ -9,8 +9,8 @@ const path = require('path')
 const url = require('url')
 
 // Local dependencies
-const View = require('./rendererComparesView.js')
-const Model = require('./rendererComparesModel.js')
+const View = require('./rendererCompareView.js')
+const Model = require('./rendererCompareModel.js')
 const Question = require('./question.js')
 const Choice = require('./choice.js')
 
@@ -73,8 +73,8 @@ const loadRatingButtons = function () {
 
   // Load user state rating button selections
   Question.All.forEach(question => {
-    const questionRatingKey = question + 'Rating'
-    View.setRating(question, userState[questionRatingKey])
+    const choiceKey = question + 'Choice'
+    View.setRating(question, userState[choiceKey])
   })
 }
 
@@ -142,10 +142,10 @@ const previous = function () {
 
 // Rating buttons
 document.querySelectorAll('.button.rating').forEach(ratingButton => {
-  const question = _.intersection(ratingButton.classList, [Question.Q1, Question.Q2, Question.Q3, Question.Q4, Question.Q5])[0]
-  const rating = _.intersection(ratingButton.classList, [Rating.R1, Rating.R2, Rating.R3, Rating.R4, Rating.R5])[0]
+  const question = _.intersection(ratingButton.classList, Question.All)[0]
+  const choice = _.intersection(ratingButton.classList, [Choice.All])[0]
   ratingButton.addEventListener('click', event => {
-    selectRating(userState, question, rating)
+    selectImage(userState, question, choice)
   })
 })
 
@@ -166,31 +166,19 @@ window.addEventListener('unload', event => {
 
 /// Key bindings
 // Rate current question as 1
-Mousetrap.bind('1', event => {
-  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R1)
-})
-// Rate current question as 2
-Mousetrap.bind('2', event => {
-  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R2)
-})
-// Rate current question as 3
-Mousetrap.bind('3', event => {
-  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R3)
-})
-// Rate current question as 4
-Mousetrap.bind('4', event => {
-  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R4)
-})
-// Rate current question as 5
-Mousetrap.bind('5', event => {
-  selectRating(userState, Model.getCurrentQuestion(userState), Rating.R5)
-})
+// Mousetrap.bind('1', event => {
+//   selectImage(userState, Model.getCurrentQuestion(userState), Rating.R1)
+// })
+// // Rate current question as 2
+// Mousetrap.bind('2', event => {
+//   selectImage(userState, Model.getCurrentQuestion(userState), Rating.R2)
+// })
 
-// Go to next image
-Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
-  selectNext()
-})
-// Go to previous image
-Mousetrap.bind(['left', 'b', 'p'], event => {
-  selectPrevious()
-})
+// // Go to next image
+// Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
+//   selectNext()
+// })
+// // Go to previous image
+// Mousetrap.bind(['left', 'b', 'p'], event => {
+//   selectPrevious()
+// })

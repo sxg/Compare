@@ -12,8 +12,8 @@ const sanitize = require('sanitize-filename')
 // Local dependencies
 const Question = require('./question.js')
 
-// Select an image
-const selectImage = function (userState, question, choice) {
+// Choose an image
+const chooseImage = function (userState, question, choice) {
   // Set the rating in the user state
   const questionChoiceKey = question + 'Choice'
   userState[questionChoiceKey] = choice
@@ -48,13 +48,14 @@ const didAnswerAllQuestions = function (userState) {
   }
 }
 
-// Save the image ratings to a CSV file
+// Save the image choices to a CSV file
 const save = function (savePath, name, imageChoices) {
   const filePath = path.join(savePath, getFileName(name, '.csv'))
   const fields = ['imagePath', 'imageName', 'q1Choice', 'q2Choice', 'q3Choice', 'q4Choice', 'q5Choice']
   const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
   const imageChoicesClone = _.cloneDeep(imageChoices)
   const data = _.map(imageChoicesClone, imageChoice => {
+    // TODO: Update serialization of choices to CSV file
     imageChoice.q1Choice = (/r([1-5])/g).exec(imageChoice.q1Choice)[1]
     imageChoice.q2Choice = (/r([1-5])/g).exec(imageChoice.q2Choice)[1]
     imageChoice.q3Choice = (/r([1-5])/g).exec(imageChoice.q3Choice)[1]
@@ -101,15 +102,31 @@ const load = function (name, imagesPath) {
     _.remove(fileNames, fileName => {
       return path.extname(fileName) !== '.png'
     })
-    // Shuffle the order of the images
-    fileNames = _.shuffle(fileNames)
+
+    // Map the file names to objects with metadata
+    const mappedImages = _.map(fileNames, fileName => {
+      const matches = (/(bSSFP|MOLLI|MRF) ((T1|T2) (.+)).png/g).exec(fileName)
+      return { fileName: fileName, mapId: matches[2] }
+    })
+
+    // Pair the file names by the ID and type of map
+    let pairedFileNames = _.groupBy(mappedImages, 'mapId')
+
+    // 1. Convert the object into an arary
+    // 2. Map each pair of images to just the shuffled file names
+    // 3. Shuffle the total order
+    pairedFileNames = _.shuffle(_.map(_.values(pairedFileNames), pair => {
+      return _.shuffle([pair[0].fileName, pair[1].fileName])
+    }))
 
     // Initialize the image choices
-    imageChoices = _.map(fileNames, fileName => {
+    imageChoices = _.map(pairedFileNames, fileName => {
       const filePath = path.join(imagesPath, fileName)
       return {
-        imagePath: filePath,
-        imageName: path.basename(filePath, '.png'),
+        imageAPath: filePath,
+        imageBPath: filePath,
+        imageAName: path.basename(filePath, '.png'),
+        imageBName: path.basename(filePath, '.png'),
         q1Choice: null,
         q2Choice: null,
         q3Choice: null,
@@ -131,37 +148,37 @@ const isDone = function (imageChoices) {
 }
 
 // Bool value of whether there is another image to choose
-const hasNext = function (userState, imageRatings) {
-  return (userState.currentImageRatingIndex >= 0 && userState.currentImageRatingIndex < imageRatings.length)
+const hasNext = function (userState, imageChoices) {
+  return (userState.currentImageChoiceIndex >= 0 && userState.currentImageChoiceIndex < imageChoices.length)
 }
 
 // Move to the next image
-const next = function (userState, imageRatings) {
-  imageRatings = storeUserState(userState, imageRatings)
-  userState.currentImageRatingIndex++
-  return loadUserState(userState, imageRatings)
+const next = function (userState, imageChoices) {
+  imageChoices = storeUserState(userState, imageChoices)
+  userState.currentImageChoiceIndex++
+  return loadUserState(userState, imageChoices)
 }
 
 // Bool value of whether there was a previous image to rate
-const hasPrevious = function (userState, imageRatings) {
-  return (userState.currentImageRatingIndex >= 1 && userState.currentImageRatingIndex < imageRatings.length)
+const hasPrevious = function (userState, imageChoices) {
+  return (userState.currentImageChoiceIndex >= 1 && userState.currentImageChoiceIndex < imageChoices.length)
 }
 
 // Move to the previous image
-const previous = function (userState, imageRatings) {
-  imageRatings = storeUserState(userState, imageRatings)
-  userState.currentImageRatingIndex--
-  return loadUserState(userState, imageRatings)
+const previous = function (userState, imageChoices) {
+  imageChoices = storeUserState(userState, imageChoices)
+  userState.currentImageChoiceIndex--
+  return loadUserState(userState, imageChoices)
 }
 
 // Get the image path of the current image
-const getImagePath = function (userState, imageRatings) {
-  return imageRatings[userState.currentImageRatingIndex].imagePath
+const getImagePath = function (userState, imageChoices) {
+  return imageChoices[userState.currentImageChoiceIndex].imagePath
 }
 
 // Exports
 module.exports = {
-  rateImage: rateImage,
+  chooseImage: chooseImage,
   getCurrentQuestion: getCurrentQuestion,
   didAnswerAllQuestions: didAnswerAllQuestions,
   next: next,
@@ -178,44 +195,44 @@ module.exports = {
 /// Private Helpers
 // Create a file name with a given extension
 const getFileName = function (name, extension) {
-  return 'ImageRatings-' + sanitize(name) + extension
+  return 'ImageChoices-' + sanitize(name) + extension
 }
 
 // Create a new user state
 const createUserState = function () {
   return {
-    currentImageRatingIndex: -1,
-    q1Rating: null,
-    q2Rating: null,
-    q3Rating: null,
-    q4Rating: null,
-    q5Rating: null
+    currentImageChoiceIndex: -1,
+    q1Choice: null,
+    q2Choice: null,
+    q3Choice: null,
+    q4Choice: null,
+    q5Choice: null
   }
 }
 
 // Save the user state in the image ratings
-const storeUserState = function (userState, imageRatings) {
+const storeUserState = function (userState, imageChoices) {
   // Copy keys in the user state to the current image rating object
-  const i = userState.currentImageRatingIndex
-  if (i >= 0 && i < imageRatings.length) {
+  const i = userState.currentImageChoiceIndex
+  if (i >= 0 && i < imageChoices.length) {
     Object.keys(userState).forEach(userStateKey => {
-      if (imageRatings[i].hasOwnProperty(userStateKey)) {
-        imageRatings[i][userStateKey] = userState[userStateKey]
+      if (imageChoices[i].hasOwnProperty(userStateKey)) {
+        imageChoices[i][userStateKey] = userState[userStateKey]
       }
     })
   }
 
-  return imageRatings
+  return imageChoices
 }
 
 // Load the user state from the image ratings
-const loadUserState = function (userState, imageRatings) {
+const loadUserState = function (userState, imageChoices) {
   // Load the user state from the image rating
-  const i = userState.currentImageRatingIndex
-  if (i >= 0 && i < imageRatings.length) {
-    Object.keys(imageRatings[i]).forEach(imageRatingKey => {
-      if (userState.hasOwnProperty(imageRatingKey)) {
-        userState[imageRatingKey] = imageRatings[i][imageRatingKey]
+  const i = userState.currentImageChoiceIndex
+  if (i >= 0 && i < imageChoices.length) {
+    Object.keys(imageChoices[i]).forEach(imageChoiceKey => {
+      if (userState.hasOwnProperty(imageChoiceKey)) {
+        userState[imageChoiceKey] = imageChoices[i][imageChoiceKey]
       }
     })
   }
