@@ -46,6 +46,19 @@ const selectRating = function (userState, question, rating) {
   }
 }
 
+// Go to the next image
+const selectNext = function () {
+  if (View.isNextButtonEnabled()) {
+    next()
+  }
+}
+
+const selectPrevious = function () {
+  if (View.isPreviousButtonEnabled()) {
+    previous()
+  }
+}
+
 // Select rating buttons from the user state
 const loadRatingButtons = function () {
   // Erase all rating button selections
@@ -124,16 +137,12 @@ document.querySelectorAll('.button.rating').forEach(ratingButton => {
 
 // Next button
 View.nextButton.addEventListener('click', event => {
-  if (View.isNextButtonEnabled()) {
-    next()
-  }
+  selectNext()
 })
 
 // Previous button
 View.previousButton.addEventListener('click', event => {
-  if (View.isPreviousButtonEnabled()) {
-    previous()
-  }
+  selectPrevious()
 })
 
 // On quitting the app
@@ -177,13 +186,9 @@ Mousetrap.bind('5', event => {
 
 // Go to next image
 Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
-  if (View.isNextButtonEnabled()) {
-    next()
-  }
+  selectNext()
 })
 // Go to previous image
 Mousetrap.bind(['left', 'b', 'p'], event => {
-  if (View.isPreviousButtonEnabled()) {
-    previous()
-  }
+  selectPrevious()
 })
