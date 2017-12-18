@@ -173,7 +173,7 @@ Mousetrap.bind('5', event => {
   selectRating(userState, Model.getCurrentQuestion(userState), Rating.R5)
 })
 
-Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
+Mousetrap.bind(['enter', 'space', 'right', 'b', 'n'], event => {
   if (View.isNextButtonEnabled()) {
     next()
   }
