@@ -29,7 +29,7 @@ ipcRenderer.on('Message-Setup', (event, data) => {
   userState = loadedData.userState
   imageChoices = loadedData.imageChoices
 
-  loadRatingButtons()
+  loadChoiceButtons()
 
   // Load the first image
   next()
@@ -37,12 +37,12 @@ ipcRenderer.on('Message-Setup', (event, data) => {
 
 /// Controller
 // Choose an image
-const selectImage = function (userState, question, rating) {
+const selectImage = function (userState, question, choice) {
   // Set the choice in the model
-  userState = Model.selectImage(userState, question, rating)
+  userState = Model.selectImage(userState, question, choice)
 
-  // Select the rating button
-  View.setRating(question, rating)
+  // Select the choice button
+  View.setChoice(question, choice)
 
   // Check if the next button should be enabled
   if (Model.didAnswerAllQuestions(userState)) {
@@ -64,17 +64,17 @@ const selectPrevious = function () {
   }
 }
 
-// Select rating buttons from the user state
-const loadRatingButtons = function () {
-  // Erase all rating button selections
+// Select choice buttons from the user state
+const loadChoiceButtons = function () {
+  // Erase all choice button selections
   Question.All.forEach(question => {
     View.clearChoices(question)
   })
 
-  // Load user state rating button selections
+  // Load user state choice button selections
   Question.All.forEach(question => {
     const choiceKey = question + 'Choice'
-    View.setRating(question, userState[choiceKey])
+    View.setChoice(question, userState[choiceKey])
   })
 }
 
@@ -83,9 +83,9 @@ const next = function () {
   // Update the model
   userState = Model.next(userState, imageChoices)
 
-  // If the user is done rating all images
+  // If the user is done choosing all images
   if (Model.isDone(imageChoices)) {
-    // Save the image ratings to a CSV file
+    // Save the image choices to a CSV file
     Model.save(savePath, name, imageChoices)
 
     // Load the done screen
@@ -95,7 +95,7 @@ const next = function () {
       slashes: true
     }))
   } else {
-    loadRatingButtons()
+    loadChoiceButtons()
 
     // Set the image
     View.setImageA(Model.getImageAPath(userState, imageChoices))
@@ -121,7 +121,7 @@ const next = function () {
 const previous = function () {
   // Update the model
   userState = Model.previous(userState, imageChoices)
-  loadRatingButtons()
+  loadChoiceButtons()
 
   // Set the image
   View.setImage(Model.getImagePath(userState, imageChoices))
@@ -141,11 +141,11 @@ const previous = function () {
   }
 }
 
-// Rating buttons
-document.querySelectorAll('.button.rating').forEach(ratingButton => {
-  const question = _.intersection(ratingButton.classList, Question.All)[0]
-  const choice = _.intersection(ratingButton.classList, [Choice.All])[0]
-  ratingButton.addEventListener('click', event => {
+// Choice buttons
+document.querySelectorAll('.button.choice').forEach(choiceButton => {
+  const question = _.intersection(choiceButton.classList, Question.All)[0]
+  const choice = _.intersection(choiceButton.classList, [Choice.All])[0]
+  choiceButton.addEventListener('click', event => {
     selectImage(userState, question, choice)
   })
 })
@@ -161,18 +161,18 @@ View.previousButton.addEventListener('click', event => {
 
 // On quitting the app
 window.addEventListener('unload', event => {
-  // Save the image ratings to a JSON file
+  // Save the image choices to a JSON file
   Model.saveProgress(savePath, name, imageChoices)
 })
 
 /// Key bindings
 // Rate current question as 1
 // Mousetrap.bind('1', event => {
-//   selectImage(userState, Model.getCurrentQuestion(userState), Rating.R1)
+//   selectImage(userState, Model.getCurrentQuestion(userState), Choice.A)
 // })
 // // Rate current question as 2
 // Mousetrap.bind('2', event => {
-//   selectImage(userState, Model.getCurrentQuestion(userState), Rating.R2)
+//   selectImage(userState, Model.getCurrentQuestion(userState), Choice.B)
 // })
 
 // // Go to next image
