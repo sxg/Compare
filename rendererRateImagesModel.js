@@ -127,7 +127,7 @@ const load = function (name, imagesPath) {
 
 // Bool value of whether the user is done rating all images
 const isDone = function (imageRatings) {
-  return _.every(imageRatings, ['q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating'])
+  return _.every(imageRatings, 'q1Rating', 'q2Rating', 'q3Rating', 'q4Rating', 'q5Rating')
 }
 
 // Bool value of whether there is another image to rate
