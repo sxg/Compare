@@ -166,20 +166,20 @@ window.addEventListener('unload', event => {
 })
 
 /// Key bindings
-// Rate current question as 1
-// Mousetrap.bind('1', event => {
-//   selectImage(userState, Model.getCurrentQuestion(userState), Choice.A)
-// })
-// // Rate current question as 2
-// Mousetrap.bind('2', event => {
-//   selectImage(userState, Model.getCurrentQuestion(userState), Choice.B)
-// })
+// Pick image A
+Mousetrap.bind(['a', '1', 'left'], event => {
+  selectImage(userState, Model.getCurrentQuestion(userState), Choice.A)
+})
+// Pick image B
+Mousetrap.bind(['b', '2', 'right'], event => {
+  selectImage(userState, Model.getCurrentQuestion(userState), Choice.B)
+})
 
-// // Go to next image
-// Mousetrap.bind(['enter', 'space', 'right', 'n'], event => {
-//   selectNext()
-// })
-// // Go to previous image
-// Mousetrap.bind(['left', 'b', 'p'], event => {
-//   selectPrevious()
-// })
+// Go to next image
+Mousetrap.bind(['enter', 'space', 'n'], event => {
+  selectNext()
+})
+// Go to previous image
+Mousetrap.bind('p', event => {
+  selectPrevious()
+})
