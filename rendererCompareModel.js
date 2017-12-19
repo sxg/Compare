@@ -11,6 +11,7 @@ const sanitize = require('sanitize-filename')
 
 // Local dependencies
 const Question = require('./question.js')
+const Choice = require('./choice.js')
 
 // Choose an image
 const chooseImage = function (userState, question, choice) {
@@ -51,16 +52,15 @@ const didAnswerAllQuestions = function (userState) {
 // Save the image choices to a CSV file
 const save = function (savePath, name, imageChoices) {
   const filePath = path.join(savePath, getFileName(name, '.csv'))
-  const fields = ['imagePath', 'imageName', 'q1Choice', 'q2Choice', 'q3Choice', 'q4Choice', 'q5Choice']
-  const fieldNames = ['Image Path', 'Image Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
+  const fields = ['imageAPath', 'imageBPath', 'imageAName', 'imageBName', 'q1Choice', 'q2Choice', 'q3Choice', 'q4Choice', 'q5Choice']
+  const fieldNames = ['Image A Path', 'Image B Path', 'Image A Name', 'Image B Name', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5']
   const imageChoicesClone = _.cloneDeep(imageChoices)
   const data = _.map(imageChoicesClone, imageChoice => {
-    // TODO: Update serialization of choices to CSV file
-    imageChoice.q1Choice = (/r([1-5])/g).exec(imageChoice.q1Choice)[1]
-    imageChoice.q2Choice = (/r([1-5])/g).exec(imageChoice.q2Choice)[1]
-    imageChoice.q3Choice = (/r([1-5])/g).exec(imageChoice.q3Choice)[1]
-    imageChoice.q4Choice = (/r([1-5])/g).exec(imageChoice.q4Choice)[1]
-    imageChoice.q5Choice = (/r([1-5])/g).exec(imageChoice.q5Choice)[1]
+    imageChoice.q1Choice = (imageChoice.q1Choice === Choice.A) ? imageChoice.imageAName : imageChoice.imageBName
+    imageChoice.q2Choice = (imageChoice.q2Choice === Choice.A) ? imageChoice.imageAName : imageChoice.imageBName
+    imageChoice.q3Choice = (imageChoice.q3Choice === Choice.A) ? imageChoice.imageAName : imageChoice.imageBName
+    imageChoice.q4Choice = (imageChoice.q4Choice === Choice.A) ? imageChoice.imageAName : imageChoice.imageBName
+    imageChoice.q5Choice = (imageChoice.q5Choice === Choice.A) ? imageChoice.imageAName : imageChoice.imageBName
     return imageChoice
   })
   const imageChoicesCSV = json2csv({ data: data, fields: fields, fieldNames: fieldNames })
