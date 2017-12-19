@@ -15,8 +15,8 @@ const Question = require('./question.js')
 // Choose an image
 const chooseImage = function (userState, question, choice) {
   // Set the choice in the user state
-  const questionChoiceKey = question + 'Choice'
-  userState[questionChoiceKey] = choice
+  const choiceKey = question + 'Choice'
+  userState[choiceKey] = choice
   return userState
 }
 

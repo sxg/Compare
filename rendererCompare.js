@@ -39,7 +39,7 @@ ipcRenderer.on('Message-Setup', (event, data) => {
 // Choose an image
 const selectImage = function (userState, question, choice) {
   // Set the choice in the model
-  userState = Model.selectImage(userState, question, choice)
+  userState = Model.chooseImage(userState, question, choice)
 
   // Select the choice button
   View.setChoice(question, choice)
@@ -144,7 +144,7 @@ const previous = function () {
 // Choice buttons
 document.querySelectorAll('.button.choice').forEach(choiceButton => {
   const question = _.intersection(choiceButton.classList, Question.All)[0]
-  const choice = _.intersection(choiceButton.classList, [Choice.All])[0]
+  const choice = _.intersection(choiceButton.classList, Choice.All)[0]
   choiceButton.addEventListener('click', event => {
     selectImage(userState, question, choice)
   })
