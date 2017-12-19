@@ -124,7 +124,8 @@ const previous = function () {
   loadChoiceButtons()
 
   // Set the image
-  View.setImage(Model.getImagePath(userState, imageChoices))
+  View.setImageA(Model.getImageAPath(userState, imageChoices))
+  View.setImageB(Model.getImageBPath(userState, imageChoices))
 
   // Check if the next button should be enabled
   if (Model.hasNext(userState, imageChoices) && Model.didAnswerAllQuestions(userState)) {
